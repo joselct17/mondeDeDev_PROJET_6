@@ -1,6 +1,7 @@
 package com.mdd.back.config;
 
 import com.nimbusds.jose.jwk.source.ImmutableSecret;
+import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -60,6 +61,11 @@ public class SpringSecurityConfig {
     @Bean
     public JwtEncoder jwtEncoder() {
         return new NimbusJwtEncoder(new ImmutableSecret<>(this.jwtKey.getBytes()));
+    }
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
     }
 
 
