@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
+import { LandingPageComponent } from './components/landing-page/landing-page.component';
 
 const materialModules = [
   MatButtonModule,
@@ -21,7 +22,8 @@ const materialModules = [
 @NgModule({
   declarations: [
     RegisterComponent,
-    LoginComponent
+    LoginComponent,
+    LandingPageComponent
   ],
   imports: [
     AuthRoutingModule,
