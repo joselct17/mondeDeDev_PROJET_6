@@ -29,14 +29,12 @@ public class Article {
     private LocalDateTime datePosted;
 
     @ManyToOne
+    @JoinColumn(name = "theme_id", nullable = false) // Relie l'article à un thème
+    private Theme theme;
+
+    @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-
-    @ManyToMany(mappedBy = "subscriptions")
-    private List<User> subscribers = new ArrayList<>();
-
-    @OneToMany(mappedBy = "theme", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Article> articles = new ArrayList<>();
+    private User user; // Auteur de l'article
 
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
