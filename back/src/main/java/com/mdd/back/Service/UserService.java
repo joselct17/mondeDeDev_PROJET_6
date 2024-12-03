@@ -9,6 +9,7 @@ import com.mdd.back.Model.LoginRequest;
 import com.mdd.back.Model.User;
 import com.mdd.back.Repository.UserRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,7 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class UserService {
 
     private final UserRepository userRepository;
@@ -25,19 +27,6 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
 
-
-    public void registerUser(UserDto userDto) {
-        if (userRepository.existsByEmail(userDto.getEmail())) {
-            throw new RuntimeException("Email already in use");
-        }
-        User user = new User();
-        user.setEmail(userDto.getEmail());
-        user.setUsername(userDto.getUsername());
-        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        user.setCreatedAt(LocalDateTime.now());
-        user.setUpdatedAt(LocalDateTime.now());
-        userRepository.save(user);
-    }
 
     public User getUserByEmail(String login) {
         return userRepository.findByEmail(login);
@@ -72,7 +61,19 @@ public class UserService {
         return;
     }
 
-    public AuthenticationToken login(LoginRequest loginRequest) {
-        return new AuthenticationToken("token", LocalDateTime.now().plusHours(1));
+    public User createUser(User user) {
+        try {
+            if (userRepository.existsByEmail(user.getEmail())) {
+                throw new RuntimeException("Email already in use");
+            }
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setCreatedAt(LocalDateTime.now());
+            user.setUpdatedAt(LocalDateTime.now());
+            return userRepository.save(user);
+        } catch (RuntimeException e) {
+            log.error("Error creating user: {}", e.getMessage());
+            throw e;
+        }
     }
+
 }
