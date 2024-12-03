@@ -1,7 +1,12 @@
 package com.mdd.back.Model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
 public class AuthenticationToken {
 
     private String token;
