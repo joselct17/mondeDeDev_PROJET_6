@@ -1,3 +1,4 @@
 export interface ArticleResponse {
-	message: string;
+	title:string;
+  content: string;
 }
