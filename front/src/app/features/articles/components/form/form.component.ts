@@ -36,7 +36,7 @@ export class FormComponent implements OnInit {
       this.id = this.route.snapshot.paramMap.get('id')!;
       this.rentalsService
         .detail(this.id)
-        .subscribe((rental: Article) => this.initForm(rental));
+        .subscribe((article: Article) => this.initForm(article));
     } else {
       this.initForm();
     }
@@ -44,42 +44,37 @@ export class FormComponent implements OnInit {
 
   public submit(): void {
     const formData = new FormData();
-    formData.append('name', this.rentalForm!.get('name')?.value);
-    formData.append('surface', this.rentalForm!.get('surface')?.value);
-    formData.append('price', this.rentalForm!.get('price')?.value);
-    if (!this.onUpdate) {
-      formData.append('picture', this.rentalForm!.get('picture')?.value._files[0]);
-    }
-    formData.append('description', this.rentalForm!.get('description')?.value);
+    formData.append('title', this.rentalForm!.get('title')?.value);
+    formData.append('content', this.rentalForm!.get('content')?.value);
 
     if (!this.onUpdate) {
       this.rentalsService
         .create(formData)
-        .subscribe((rentalResponse: ArticleResponse) => this.exitPage(rentalResponse));
+        .subscribe((articleResponse: ArticleResponse) => this.exitPage(articleResponse));
     } else {
       this.rentalsService
         .update(this.id!, formData)
-        .subscribe((rentalResponse: ArticleResponse) => this.exitPage(rentalResponse));
+        .subscribe((articleResponse: ArticleResponse) => this.exitPage(articleResponse));
     }
   }
 
-  private initForm(rental?: Article): void {
-    console.log(rental);
+  private initForm(article?: Article): void {
+    console.log(article);
     console.log(this.sessionService.user!.id);
-    if( (rental !== undefined) && (rental?.owner_id !== this.sessionService.user!.id)) {
+    if( (article !== undefined) && (article?.owner_id !== this.sessionService.user!.id)) {
       this.router.navigate(['/rentals']);
     }
     this.rentalForm = this.fb.group({
-      name: [rental ? rental.title : '', [Validators.required]],
-      description: [rental ? rental.content : '', [Validators.required]],
+      name: [article ? article.title : '', [Validators.required]],
+      description: [article ? article.content : '', [Validators.required]],
     });
     if (!this.onUpdate) {
       this.rentalForm.addControl('picture', this.fb.control('', [Validators.required]));
     }
   }
 
-  private exitPage(rentalResponse: ArticleResponse): void {
-    this.matSnackBar.open(rentalResponse.message, "Close", { duration: 3000 });
+  private exitPage(articleResponse: ArticleResponse): void {
+    this.matSnackBar.open(articleResponse.content, "Close", { duration: 3000 });
     this.router.navigate(['rentals']);
   }
 }
