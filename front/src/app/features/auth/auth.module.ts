@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
+import {MatGridListModule} from "@angular/material/grid-list";
 
 const materialModules = [
   MatButtonModule,
@@ -25,12 +26,13 @@ const materialModules = [
     LoginComponent,
     LandingPageComponent
   ],
-  imports: [
-    AuthRoutingModule,
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    ...materialModules
-  ]
+    imports: [
+        AuthRoutingModule,
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        ...materialModules,
+        MatGridListModule
+    ]
 })
 export class AuthModule { }

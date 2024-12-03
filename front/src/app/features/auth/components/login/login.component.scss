@@ -1,8 +1,12 @@
-.login {
-    margin-top: 30px;
-    mat-card {
-        margin: 20px;
-        max-width: 600px;
-        width: 100%;
-    }
+.login-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #f9f9f9;
+}
+
+.logo {
+  width: 250px;
 }

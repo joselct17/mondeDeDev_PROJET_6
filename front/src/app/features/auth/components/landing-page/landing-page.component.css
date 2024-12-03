@@ -8,7 +8,6 @@
 }
 
 .logo {
-  width: 150px;
   height: auto;
   margin-bottom: 20px;
 }
@@ -19,16 +18,15 @@ button {
 
 .button-container {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 10px;
 }
 
-@media (min-width: 768px) {
+@media screen and (max-width: 740px) {
   .button-container {
-    flex-direction: row;
+    flex-direction: column;
   }
-
   .logo {
-    width: 200px;
+    width: 300px;
   }
 }
