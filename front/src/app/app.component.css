@@ -1,0 +1,28 @@
+.app {
+  mat-toolbar {
+    .logo-container {
+      display: flex;
+      align-items: center;
+      img.logo {
+        max-height: 70px;
+      width: auto;
+      margin-right: 20px;
+      }
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: revert;
+
+      .link {
+        cursor: pointer;
+        font-size: 16px;
+        text-decoration: none;
+      }
+
+      .link + .link {
+        margin-left: 10px;
+      }
+    }
+  }
+}
