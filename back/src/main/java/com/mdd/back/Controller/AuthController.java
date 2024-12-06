@@ -16,6 +16,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Controller handling authentication-related endpoints.
+ */
 @RestController
 @RequestMapping("/api/auth")
 @AllArgsConstructor
@@ -24,6 +27,12 @@ public class AuthController {
     private final UserService userService;
     private final AuthenticationService authenticationService;
 
+    /**
+     * Creates a new user based on the provided User object.
+     *
+     * @param users The User object containing user details like email, password, and username.
+     * @return ResponseEntity<UserDto> A ResponseEntity containing the UserDto of the created user with HTTP status 201 (Created).
+     */
     @PostMapping("/register")
     public ResponseEntity<UserDto> createUser(@RequestBody User users) {
         User createdUser = userService.createUser(users);
@@ -31,6 +40,13 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.CREATED).body(userDto);
     }
 
+    /**
+     * Retrieves a JWT token based on the provided LoginDto object.
+     *
+     * @param loginDto The LoginDto object containing login, email, and password from the user.
+     * @return ResponseEntity<?> A ResponseEntity containing an AuthResponse object with the generated JWT token if successful. Returns HTTP status 200 (OK) on success.
+     * @throws RuntimeException If neither login nor email is provided, or if the login credentials are invalid.
+     */
     @PostMapping("/login")
     public ResponseEntity<?> getToken(@RequestBody LoginDto loginDto) {
         String login = loginDto.getLogin();
@@ -47,6 +63,11 @@ public class AuthController {
         return ResponseEntity.ok(new AuthResponse(token));
     }
 
+    /**
+     * Retrieves the currently authenticated user.
+     *
+     * @return ResponseEntity<UserDto> A ResponseEntity containing the UserDto of the current user with HTTP status 200 (OK).
+     */
     @GetMapping("/me")
     public ResponseEntity<UserDto> getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
