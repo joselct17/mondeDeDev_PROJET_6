@@ -2,11 +2,15 @@ package com.mdd.back.Controller;
 
 
 import com.mdd.back.Model.DTO.CommentDto;
+import com.mdd.back.Model.User;
+import com.mdd.back.Repository.UserRepository;
 import com.mdd.back.Service.CommentService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -15,6 +19,7 @@ import java.util.List;
 public class CommentController {
 
     private final CommentService commentService;
+    private final UserRepository userRepository;
 
     /**
      * Ajoute un commentaire à un article.
@@ -24,10 +29,18 @@ public class CommentController {
      */
     // Ajouter un commentaire à un article
     @PostMapping
-    public ResponseEntity<String> addComment(@RequestBody CommentDto commentDto) {
-        commentService.addComment(commentDto);
-        return ResponseEntity.ok("Comment added successfully");
+    public ResponseEntity<String> addComment(@RequestBody CommentDto commentDto, Principal principal) {
+        try {
+            User user = userRepository.findByEmail(principal.getName());
+            commentDto.setUser_id(user.getId());
+
+            commentService.addComment(commentDto);
+            return ResponseEntity.ok("Comment added successfully");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error adding comment: " + e.getMessage());
+        }
     }
+
 
     /**
      * Retrieve comments for a given article.
