@@ -49,6 +49,7 @@ public class ArticleService {
                 .map(article -> {
                     ArticleDto articleDto = modelMapper.map(article, ArticleDto.class);
 
+                    articleDto.setAuthor(article.getUser().getUsername());
                     articleDto.setTheme(article.getTheme().getName());
                     // Mapper les commentaires
                     articleDto.setComments(
