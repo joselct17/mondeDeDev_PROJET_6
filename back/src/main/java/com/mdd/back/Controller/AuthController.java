@@ -12,6 +12,8 @@ import com.mdd.back.Service.UserService;
 import com.mdd.back.config.AuthenticationService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -26,13 +28,14 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class AuthController {
 
+    private static final Logger log = LoggerFactory.getLogger(AuthController.class);
     private final UserService userService;
     private final AuthenticationService authenticationService;
 
     /**
      * Creates a new user based on the provided User object.
      *
-     * @param users The User object containing user details like email, password, and username.
+     * @param userDto The User object containing user details like email, password, and username.
      * @return ResponseEntity<UserDto> A ResponseEntity containing the UserDto of the created user with HTTP status 201 (Created).
      */
     @PostMapping("/register")
@@ -51,17 +54,18 @@ public class AuthController {
      */
     @PostMapping("/login")
     public ResponseEntity<?> getToken(@RequestBody LoginDto loginDto) {
-        String login = loginDto.getLogin();
+        String userName = loginDto.getUserName();
         String email = loginDto.getEmail();
 
         // Utilisez l'email ou le login en fonction de ce qui est présent
-        String identifier = (login != null) ? login : email;
+        String identifier = (userName != null) ? userName : email;
         if (identifier == null) {
-            throw new RuntimeException("Login or email must be provided");
+            throw new RuntimeException("Username or email must be provided");
         }
 
         String password = loginDto.getPassword();
         String token = authenticationService.loginAndGenerateToken(identifier, password);
+        log.debug("Generated JWT token: {}", token);
         return ResponseEntity.ok(new AuthResponse(token));
     }
 
