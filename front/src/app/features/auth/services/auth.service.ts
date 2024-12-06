@@ -20,9 +20,6 @@ export class AuthService {
     return this.httpClient.post<AuthSuccess>(`${this.pathService}/auth/register`, registerRequest);
   }
 
-  public me(): Observable<User> {
-    return this.httpClient.get<User>(`${this.pathService}/auth/me`);
-  }
 
   public login(loginRequest: LoginRequest): Observable<AuthSuccess> {
     return this.httpClient.post<AuthSuccess>(`${this.pathService}/auth/login`, loginRequest).pipe(
@@ -31,6 +28,10 @@ export class AuthService {
         return throwError(() => new Error('Connexion échouée'));
       })
     );
+  }
+
+  public me(): Observable<User> {
+    return this.httpClient.get<User>(`${this.pathService}/auth/me`);
   }
 
 }
