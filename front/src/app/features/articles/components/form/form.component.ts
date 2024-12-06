@@ -15,7 +15,7 @@ import { ArticlesService } from '../../services/articles.service';
 export class FormComponent implements OnInit {
 
   public onUpdate: boolean = false;
-  public rentalForm: FormGroup | undefined;
+  public articleForm: FormGroup | undefined;
 
   private id: string | undefined;
 
@@ -23,7 +23,7 @@ export class FormComponent implements OnInit {
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private matSnackBar: MatSnackBar,
-    private rentalsService: ArticlesService,
+    private articlesService: ArticlesService,
     private sessionService: SessionService,
     private router: Router
   ) {
@@ -34,7 +34,7 @@ export class FormComponent implements OnInit {
     if (url.includes('update')) {
       this.onUpdate = true;
       this.id = this.route.snapshot.paramMap.get('id')!;
-      this.rentalsService
+      this.articlesService
         .detail(this.id)
         .subscribe((article: Article) => this.initForm(article));
     } else {
@@ -44,15 +44,15 @@ export class FormComponent implements OnInit {
 
   public submit(): void {
     const formData = new FormData();
-    formData.append('title', this.rentalForm!.get('title')?.value);
-    formData.append('content', this.rentalForm!.get('content')?.value);
+    formData.append('title', this.articleForm!.get('title')?.value);
+    formData.append('content', this.articleForm!.get('content')?.value);
 
     if (!this.onUpdate) {
-      this.rentalsService
+      this.articlesService
         .create(formData)
         .subscribe((articleResponse: ArticleResponse) => this.exitPage(articleResponse));
     } else {
-      this.rentalsService
+      this.articlesService
         .update(this.id!, formData)
         .subscribe((articleResponse: ArticleResponse) => this.exitPage(articleResponse));
     }
@@ -61,15 +61,13 @@ export class FormComponent implements OnInit {
   private initForm(article?: Article): void {
     console.log(article);
     console.log(this.sessionService.user!.id);
-    if( (article !== undefined) && (article?.owner_id !== this.sessionService.user!.id)) {
-      this.router.navigate(['/rentals']);
-    }
-    this.rentalForm = this.fb.group({
+
+    this.articleForm = this.fb.group({
       name: [article ? article.title : '', [Validators.required]],
       description: [article ? article.content : '', [Validators.required]],
     });
     if (!this.onUpdate) {
-      this.rentalForm.addControl('picture', this.fb.control('', [Validators.required]));
+      this.articleForm.addControl('picture', this.fb.control('', [Validators.required]));
     }
   }
 
