@@ -2,12 +2,15 @@ package com.mdd.back.Controller;
 
 
 import com.mdd.back.Model.DTO.ArticleDto;
+import com.mdd.back.Model.User;
+import com.mdd.back.Repository.UserRepository;
 import com.mdd.back.Service.ArticleService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -17,6 +20,7 @@ import java.util.List;
 public class ArticleController {
 
     private final ArticleService articleService;
+    private final UserRepository userRepository;
 
     /**
      * Create a new article based on the provided ArticleDto.
@@ -26,9 +30,10 @@ public class ArticleController {
      */
 
     @PostMapping
-    public ResponseEntity<String> createArticle(@RequestBody ArticleDto articleDto) {
+    public ResponseEntity<String> createArticle(@RequestBody ArticleDto articleDto, Principal principal) {
+        User user = userRepository.findByEmail(principal.getName());
         log.info("Creating article: {}", articleDto);
-        articleService.createArticle(articleDto);
+        articleService.createArticle(articleDto, user);
         return ResponseEntity.ok("Article created successfully");
     }
 
