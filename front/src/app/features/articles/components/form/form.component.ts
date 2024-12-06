@@ -63,7 +63,7 @@ export class FormComponent implements OnInit {
     console.log(this.sessionService.user!.id);
 
     this.articleForm = this.fb.group({
-      name: [article ? article.title : '', [Validators.required]],
+      name: [article ? article.name : '', [Validators.required]],
       description: [article ? article.content : '', [Validators.required]],
     });
     if (!this.onUpdate) {
