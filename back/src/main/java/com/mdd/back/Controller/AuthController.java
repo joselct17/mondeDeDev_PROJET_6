@@ -4,11 +4,13 @@ package com.mdd.back.Controller;
 import com.mdd.back.Model.AuthResponse;
 import com.mdd.back.Model.AuthenticationToken;
 import com.mdd.back.Model.DTO.LoginDto;
+import com.mdd.back.Model.DTO.RegisterUserDto;
 import com.mdd.back.Model.DTO.UserDto;
 import com.mdd.back.Model.LoginRequest;
 import com.mdd.back.Model.User;
 import com.mdd.back.Service.UserService;
 import com.mdd.back.config.AuthenticationService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,10 +36,10 @@ public class AuthController {
      * @return ResponseEntity<UserDto> A ResponseEntity containing the UserDto of the created user with HTTP status 201 (Created).
      */
     @PostMapping("/register")
-    public ResponseEntity<UserDto> createUser(@RequestBody User users) {
-        User createdUser = userService.createUser(users);
-        UserDto userDto = new UserDto(createdUser);
-        return ResponseEntity.status(HttpStatus.CREATED).body(userDto);
+    public ResponseEntity<UserDto> createUser(@Valid @RequestBody RegisterUserDto userDto) {
+        User createdUser = userService.createUser(userDto);
+        UserDto response = new UserDto(createdUser);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     /**
