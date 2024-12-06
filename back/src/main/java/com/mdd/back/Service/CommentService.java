@@ -8,6 +8,7 @@ import com.mdd.back.Repository.ArticleRepository;
 import com.mdd.back.Repository.CommentRepository;
 import com.mdd.back.Repository.UserRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @AllArgsConstructor
+@Slf4j
 public class CommentService {
 
     private final CommentRepository commentRepository;
@@ -29,19 +31,25 @@ public class CommentService {
 
     // Ajouter un commentaire
     public void addComment(CommentDto commentDto) {
-        Comment comment = new Comment();
-        comment.setContent(commentDto.getContent());
-        comment.setDatePosted(LocalDateTime.now());
+        try {
+            Comment comment = new Comment();
+            comment.setContent(commentDto.getContent());
+            comment.setDatePosted(LocalDateTime.now());
 
-        Article article = articleRepository.findById(commentDto.getArticle_id())
-                .orElseThrow(() -> new RuntimeException("Article not found"));
-        comment.setArticle(article);
+            Article article = articleRepository.findById(commentDto.getArticle_id())
+                    .orElseThrow(() -> new RuntimeException("Article not found"));
+            comment.setArticle(article);
 
-        User user = userRepository.findById(commentDto.getUser_id())
-                .orElseThrow(() -> new RuntimeException("User not found"));
-        comment.setUser(user);
+            User user = userRepository.findById(commentDto.getUser_id())
+                    .orElseThrow(() -> new RuntimeException("User not found"));
+            comment.setUser(user);
 
-        commentRepository.save(comment);
+            commentRepository.save(comment);
+            log.info("Comment added successfully: {}", comment);
+        } catch (RuntimeException e) {
+            log.error("Error adding comment: {}", e.getMessage());
+            throw e;
+        }
     }
 
     // Récupérer les commentaires par article
