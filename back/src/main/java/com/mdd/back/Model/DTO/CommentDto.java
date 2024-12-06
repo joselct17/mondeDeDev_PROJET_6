@@ -18,10 +18,4 @@ public class CommentDto {
 
     private Long article_id;
 
-    public CommentDto(Comment comment, Article article, User user) {
-        this.content = comment.getContent();
-        this.datePosted = LocalDateTime.now();
-        this.article_id = article.getId();
-        this.user_id = user.getId();
-    }
 }
