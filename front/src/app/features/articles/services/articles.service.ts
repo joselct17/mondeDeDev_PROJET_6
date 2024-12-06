@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Article } from 'src/app/features/articles/interfaces/article.interface';
 import { ArticleResponse } from '../interfaces/api/articleResponse.interface';
 import { ArticlesResponse } from '../interfaces/api/articlesResponse.interface';
+import {environment} from "../../../../environment";
 
 
 @Injectable({
@@ -11,12 +12,12 @@ import { ArticlesResponse } from '../interfaces/api/articlesResponse.interface';
 })
 export class ArticlesService {
 
-  private pathService:string = 'api/articles';
+  private pathService = environment.apiUrl;
 
   constructor(private httpClient: HttpClient) { }
 
   public all(): Observable<ArticlesResponse> {
-    return this.httpClient.get<ArticlesResponse>(this.pathService);
+    return this.httpClient.get<ArticlesResponse>(`${this.pathService}/articles`);
   }
 
   public detail(id: string): Observable<Article> {
