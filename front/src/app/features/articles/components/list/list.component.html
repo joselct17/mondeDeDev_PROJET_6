@@ -3,10 +3,10 @@
 
   <!-- Vérifie si les articles sont chargés -->
   <div *ngIf="articles | async as articlesResponse; else loading">
-    <div *ngIf="articlesResponse.articles.length; else noArticles">
+    <div *ngIf="articlesResponse.articles; else noArticles">
       <!-- Boucle sur les articles -->
       <div class="article-card" *ngFor="let article of articlesResponse.articles">
-        <h2>{{ article.title }}</h2>
+        <h2>{{ article.name }}</h2>
         <div class="meta">
           <span class="author">Auteur : {{ article.author }}</span>
           <span class="date">Date : {{ article.created_at }}</span>
