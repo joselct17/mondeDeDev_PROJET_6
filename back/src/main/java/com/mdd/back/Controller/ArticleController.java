@@ -11,7 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/articles")
@@ -44,8 +46,12 @@ public class ArticleController {
      */
 
     @GetMapping
-    public ResponseEntity<List<ArticleDto>> getArticles() {
-        return ResponseEntity.ok(articleService.getAllArticles());
+    public ResponseEntity<Map<String,List<ArticleDto>>> getArticles() {
+
+        Map<String, List<ArticleDto>> articleList = new HashMap<>();
+        articleList.put("articles", articleService.getAllArticles());
+
+        return ResponseEntity.ok(articleList);
     }
 
     /**
