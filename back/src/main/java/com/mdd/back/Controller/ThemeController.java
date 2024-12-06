@@ -2,10 +2,16 @@ package com.mdd.back.Controller;
 
 
 import com.mdd.back.Model.DTO.ThemeDto;
+import com.mdd.back.Model.Theme;
+import com.mdd.back.Model.User;
+import com.mdd.back.Repository.UserRepository;
 import com.mdd.back.Service.ThemeService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/themes")
@@ -13,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class ThemeController {
 
     private final ThemeService themeService;
+    private final UserRepository userRepository;
 
     /**
      * Retrieves all themes available in the system.
@@ -21,30 +28,47 @@ public class ThemeController {
      */
     @GetMapping
     public ResponseEntity<Iterable<ThemeDto>> getThemes() {
-        return ResponseEntity.ok(themeService.getAllThemes());
+        List<ThemeDto> themes = themeService.getAllThemes();
+        return ResponseEntity.ok(themes);
+    }
+
+    /**
+     * Creates a new theme in the system.
+     *
+     * @param themeDto ThemeDto representing the theme to be created
+     * @return ResponseEntity containing the newly created Theme object
+     */
+    @PostMapping
+    public ResponseEntity<Theme> createTheme(@RequestBody ThemeDto themeDto) {
+        return ResponseEntity.ok(themeService.addTheme(themeDto));
     }
 
     /**
      * Subscribes a user to a specific theme identified by the provided ID.
      *
-     * @param id The ID of the theme to subscribe to
+     * @param themeId The ID of the theme to subscribe to
      * @return ResponseEntity indicating the success of subscribing to the theme
      */
-    @PostMapping("/subscribe/{id}")
-    public ResponseEntity<String> subscribeToTheme(@PathVariable Long id) {
-        themeService.subscribeToTheme(id);
+    @PostMapping("/subscribe/{themeId}")
+    public ResponseEntity<String> subscribeToTheme(@PathVariable Integer themeId, Principal principal) {
+
+        User subscriber = userRepository.findByEmail(principal.getName());
+
+        themeService.subscribeToTheme(themeId, subscriber);
         return ResponseEntity.ok("Subscribed to theme successfully");
     }
 
     /**
      * Unsubscribes the user from a specific theme identified by the provided ID.
      *
-     * @param id The ID of the theme to unsubscribe from
+     * @param themeId The ID of the theme to unsubscribe from
      * @return ResponseEntity indicating the success of unsubscribing from the theme with a message "Unsubscribed from theme successfully"
      */
-    @DeleteMapping("/unsubscribe/{id}")
-    public ResponseEntity<String> unsubscribeFromTheme(@PathVariable Long id) {
-        themeService.unsubscribeFromTheme(id);
+    @DeleteMapping("/unsubscribe/{themeId}")
+    public ResponseEntity<String> unsubscribeFromTheme(@PathVariable Integer themeId, Principal principal) {
+        User subscriber = userRepository.findByEmail(principal.getName());
+
+        themeService.unsubscribeFromTheme(themeId, subscriber);
         return ResponseEntity.ok("Unsubscribed from theme successfully");
     }
 }
