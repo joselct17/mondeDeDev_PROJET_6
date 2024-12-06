@@ -1,2 +1,20 @@
+<div class="app">
+  <mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="space-between center">
+    <!-- Logo -->
+    <div class="logo-container" fxFlex="auto">
+      <img src="assets/img/mdd-logo.png" alt="Logo" class="logo">
+    </div>
 
-<router-outlet></router-outlet>
+    <!-- Navigation Links -->
+    <div fxFlex="none" *ngIf="$isLogged() | async" class="nav-links">
+      <span routerLink="articles" class="link">Articles</span>
+      <span routerLink="themes" class="link">Themes</span>
+      <span routerLink="me" class="link">Account</span>
+      <span (click)="logout()" class="link">Logout</span>
+    </div>
+  </mat-toolbar>
+
+  <div>
+    <router-outlet></router-outlet>
+  </div>
+</div>
