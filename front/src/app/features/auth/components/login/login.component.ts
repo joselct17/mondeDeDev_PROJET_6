@@ -16,6 +16,7 @@ export class LoginComponent {
   public hide = true; // Contrôle la visibilité du mot de passe
   public onError = false; // Contrôle l'état d'erreur global
   public errorMessage: string = ''; // Message d'erreur pour l'email
+  public isLoading = false;
 
   // Formulaire de connexion
   public form: FormGroup = this.fb.group({
@@ -46,9 +47,8 @@ export class LoginComponent {
       this.updateErrorMessage(); // Met à jour les messages d'erreur
       return;
     }
-
+    this.isLoading = true;
     const loginRequest = this.form.value as LoginRequest;
-
     this.authService.login(loginRequest).subscribe(
       (response: AuthSuccess) => {
         // Stocke le token et connecte l'utilisateur
@@ -56,10 +56,12 @@ export class LoginComponent {
         this.authService.me().subscribe((user: User) => {
           this.sessionService.logIn(user);
           this.router.navigate(['/articles']);
+          this.isLoading = false;
         });
       },
       error => {
         this.onError = true; // Active un état d'erreur
+        this.errorMessage = 'Échec de la connexion. Veuillez vérifier vos identifiants.';
       }
     );
   }
