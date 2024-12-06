@@ -18,6 +18,13 @@ public class ArticleController {
 
     private final ArticleService articleService;
 
+    /**
+     * Create a new article based on the provided ArticleDto.
+     *
+     * @param articleDto The ArticleDto object containing the title and content of the article to be created
+     * @return ResponseEntity<String> indicating successful creation of the article
+     */
+
     @PostMapping
     public ResponseEntity<String> createArticle(@RequestBody ArticleDto articleDto) {
         log.info("Creating article: {}", articleDto);
@@ -25,11 +32,23 @@ public class ArticleController {
         return ResponseEntity.ok("Article created successfully");
     }
 
+    /**
+     * Retrieves all articles from the database.
+     *
+     * @return ResponseEntity<List < ArticleDto>> containing a list of ArticleDto objects representing all articles
+     */
+
     @GetMapping
     public ResponseEntity<List<ArticleDto>> getArticles() {
         return ResponseEntity.ok(articleService.getAllArticles());
     }
 
+    /**
+     * Retrieve an article by its ID.
+     *
+     * @param id The ID of the article to retrieve
+     * @return ResponseEntity<ArticleDto> containing the article corresponding to the provided ID
+     */
     @GetMapping("/{id}")
     public ResponseEntity<ArticleDto> getArticleById(@PathVariable Long id) {
         return ResponseEntity.ok(articleService.getArticleById(id));
