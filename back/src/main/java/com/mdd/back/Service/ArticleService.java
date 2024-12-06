@@ -26,6 +26,11 @@ public class ArticleService {
         article.setContent(articleDto.getContent());
     }
 
+    /**
+     * Retrieves all articles from the database.
+     *
+     * @return List<ArticleDto> containing all articles as DTOs
+     */
     public List<ArticleDto> getAllArticles() {
         // Récupérer tous les articles
         List<Article> articles = articleRepository.findAll();
@@ -40,6 +45,12 @@ public class ArticleService {
     }
 
 
+    /**
+     * Retrieves an article by its ID.
+     *
+     * @param id The ID of the article to retrieve
+     * @return ArticleDto representing the article with the provided ID, or null if not found
+     */
     public ArticleDto getArticleById(Long id) {
         return modelMapper.map(articleRepository.findById(id).orElse(null), ArticleDto.class);
     }
