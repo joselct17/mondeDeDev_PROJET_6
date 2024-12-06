@@ -1,11 +1,11 @@
 import {Injectable} from "@angular/core";
-import {CanActivate, Router} from "@angular/router"; 
+import {CanActivate, Router} from "@angular/router";
 import { SessionService } from "../services/session.service";
 
 @Injectable({providedIn: 'root'})
 export class AuthGuard implements CanActivate {
 
-  constructor( 
+  constructor(
     private router: Router,
     private sessionService: SessionService,
   ) {
@@ -13,9 +13,11 @@ export class AuthGuard implements CanActivate {
 
   public canActivate(): boolean {
     if (!this.sessionService.isLogged) {
+      this.sessionService.setRedirectUrl(this.router.url); // Enregistrer l'URL cible
       this.router.navigate(['login']);
       return false;
     }
     return true;
   }
+
 }
