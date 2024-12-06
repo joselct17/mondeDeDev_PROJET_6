@@ -10,7 +10,7 @@ export class SessionService {
 
   public isLogged = false;
   public user: User | undefined;
-
+  private redirectUrl: string | null = null;
   private isLoggedSubject = new BehaviorSubject<boolean>(this.isLogged);
 
   public $isLogged(): Observable<boolean> {
@@ -32,5 +32,13 @@ export class SessionService {
 
   private next(): void {
     this.isLoggedSubject.next(this.isLogged);
+  }
+
+  setRedirectUrl(url: string): void {
+    this.redirectUrl = url;
+  }
+
+  getRedirectUrl(): string | null {
+    return this.redirectUrl;
   }
 }
