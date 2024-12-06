@@ -15,6 +15,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Service class for managing comments.
+ */
 @Service
 @AllArgsConstructor
 public class CommentService {

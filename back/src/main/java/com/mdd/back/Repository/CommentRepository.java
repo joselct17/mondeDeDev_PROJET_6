@@ -11,5 +11,11 @@ import java.util.List;
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
+    /**
+     * Retrieves comments for a given article ID.
+     *
+     * @param articleId The ID of the article for which to retrieve comments
+     * @return List<Comment> containing the comments for the article
+     */
     List<Comment> findByArticleId(Long articleId);
 }
