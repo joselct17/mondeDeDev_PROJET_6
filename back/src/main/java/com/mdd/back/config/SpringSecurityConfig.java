@@ -4,6 +4,7 @@ import com.nimbusds.jose.jwk.source.ImmutableSecret;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -31,12 +32,12 @@ public class SpringSecurityConfig {
 
 
     @Bean
-    public SecurityFilterChain filterChain (HttpSecurity http) throws Exception {
-        return http.csrf(csrf->csrf.disable())
-                .sessionManagement(session ->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(auth->auth
-                        .requestMatchers("/api/auth/register", "/api/auth/login", "/swagger-ui/**", "/v3/**").permitAll()
-                        .requestMatchers("/uploads/**").permitAll()
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return http.csrf(csrf -> csrf.disable())
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/auth/register", "/api/auth/login", "/swagger-ui/**", "/v3/**", "/uploads/**").permitAll()
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Autorise les requêtes OPTIONS
                         .anyRequest().authenticated())
                 .logout(logout ->
                         logout
@@ -46,6 +47,7 @@ public class SpringSecurityConfig {
                 .oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults()))
                 .build();
     }
+
 
     @Bean
     PasswordEncoder passwordEncoder() {
@@ -78,7 +80,7 @@ public class SpringSecurityConfig {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
                         .allowedOrigins("http://localhost:4200")  // Frontend Angular URL
-                        .allowedMethods("GET", "POST", "PUT", "DELETE")
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true);
             }
