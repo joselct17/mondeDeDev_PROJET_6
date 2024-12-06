@@ -16,6 +16,7 @@ public class ArticleDto {
     private String name;
     private String content;
     private String theme;
+    private String author;
     private List<CommentResponseDto> comments;
 
 }
