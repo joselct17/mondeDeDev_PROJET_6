@@ -98,23 +98,30 @@ public class UserService {
     /**
      * Creates a new user based on the provided User object.
      *
-     * @param user The User object containing user details like email, password, and username.
+     * @param userDto The User object containing user details like email, password, and username.
      * @return The created User object if successful, null otherwise.
      * @throws RuntimeException If an error occurs while creating the user, or if the email address is already in use.
      */
-    public User createUser(User user) {
-        try {
-            if (userRepository.existsByEmail(user.getEmail())) {
-                throw new RuntimeException("Email already in use");
-            }
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-            user.setCreatedAt(LocalDateTime.now());
-            user.setUpdatedAt(LocalDateTime.now());
-            return userRepository.save(user);
-        } catch (RuntimeException e) {
-            log.error("Error creating user: {}", e.getMessage());
-            throw e;
+    public User createUser(RegisterUserDto userDto) {
+        if (userRepository.existsByEmail(userDto.getEmail())) {
+            throw new RuntimeException("Email already in use");
         }
+
+        User user = mapToEntity(userDto);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setCreatedAt(LocalDateTime.now());
+        user.setUpdatedAt(LocalDateTime.now());
+
+        return userRepository.save(user);
+    }
+
+
+    private User mapToEntity(RegisterUserDto userDto) {
+        User user = new User();
+        user.setUsername(userDto.getUserName());
+        user.setEmail(userDto.getEmail());
+        user.setPassword(userDto.getPassword());
+        return user;
     }
 
 }
