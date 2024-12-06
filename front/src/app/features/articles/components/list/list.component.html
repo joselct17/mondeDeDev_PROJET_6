@@ -1,0 +1,29 @@
+<div class="articles-container">
+  <h1>Liste des Articles</h1>
+
+  <!-- Vérifie si les articles sont chargés -->
+  <div *ngIf="articles | async as articlesResponse; else loading">
+    <div *ngIf="articlesResponse.articles.length; else noArticles">
+      <!-- Boucle sur les articles -->
+      <div class="article-card" *ngFor="let article of articlesResponse.articles">
+        <h2>{{ article.title }}</h2>
+        <div class="meta">
+          <span class="author">Auteur : {{ article.author }}</span>
+          <span class="date">Date : {{ article.created_at }}</span>
+        </div>
+        <p>{{ article.content | slice: 0:100 }}...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Affiché si les articles sont en cours de chargement -->
+  <ng-template #loading>
+    <p>Chargement des articles...</p>
+  </ng-template>
+
+  <!-- Affiché si aucun article n'est disponible -->
+  <ng-template #noArticles>
+    <p>Aucun article disponible.</p>
+  </ng-template>
+</div>
+
