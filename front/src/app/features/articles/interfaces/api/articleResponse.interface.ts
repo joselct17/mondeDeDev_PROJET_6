@@ -1,6 +1,6 @@
 export interface ArticleResponse {
-  title: string;
+  name: string;
   content: string;
-  date: string;
+  date: Date;
   author: string;
 }
