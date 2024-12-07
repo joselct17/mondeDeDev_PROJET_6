@@ -1,20 +1,37 @@
 <div class="articles-container">
-  <h1>Liste des Articles</h1>
+ <button mat-raised-button color="primary" routerLink="/articles/new">Ajouter un article</button>
 
   <!-- Vérifie si les articles sont chargés -->
   <div *ngIf="articles | async as articlesResponse; else loading">
-    <div *ngIf="articlesResponse.articles; else noArticles">
-      <!-- Boucle sur les articles -->
-      <div class="article-card" *ngFor="let article of articlesResponse.articles">
-        <h2>{{ article.name }}</h2>
-        <div class="meta">
-          <span class="author">Auteur : {{ article.author }}</span>
-          <span class="date">Date : {{ article.created_at }}</span>
-        </div>
-        <p>{{ article.content | slice: 0:100 }}...</p>
+    <div *ngIf="articlesResponse.articles && articlesResponse.articles.length > 0; else noArticles">
+      <!-- Conteneur des cartes -->
+      <div class="article-list">
+        <mat-card class="article-card" *ngFor="let article of articlesResponse.articles">
+          <mat-card-header>
+            <mat-card-title>{{ article.name }}</mat-card-title>
+            <mat-card-subtitle>Publié par {{ article.author }} le {{ article.created_at | date: 'dd/MM/yyyy' }}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <p>{{ article.content | slice: 0:150 }}...</p>
+          </mat-card-content>
+          <mat-card-actions align="end">
+            <button mat-button color="primary">Lire plus</button>
+          </mat-card-actions>
+        </mat-card>
       </div>
     </div>
   </div>
+
+  <!-- Template pour afficher le message si aucun article n'est disponible -->
+  <ng-template #noArticles>
+    <p class="no-articles-message">Aucun article disponible pour le moment.</p>
+  </ng-template>
+
+  <!-- Template pour afficher le chargement -->
+  <ng-template #loading>
+    <p class="loading-message">Chargement des articles...</p>
+  </ng-template>
+
 
   <!-- Affiché si les articles sont en cours de chargement -->
   <ng-template #loading>
