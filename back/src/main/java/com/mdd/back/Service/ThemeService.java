@@ -73,7 +73,7 @@ public class ThemeService {
 
         Theme newTheme = new Theme();
         newTheme.setName(themeDto.getName());
-
+        newTheme.setDescription(themeDto.getDescription());
         return themeRepository.save(newTheme);
     }
 
@@ -100,7 +100,8 @@ public class ThemeService {
     /**
      * Unsubscribes a user from a theme by its ID.
      *
-     * @param id The ID of the theme from which the user will be unsubscribed
+     * @param themeId The ID of the theme from which the user will be unsubscribed
+     * @param subscriber The user to unsubscribe
      */
     public void unsubscribeFromTheme(Integer themeId, User subscriber) {
         Theme theme = themeRepository.findById(themeId)

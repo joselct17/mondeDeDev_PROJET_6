@@ -19,6 +19,9 @@ public class Theme {
     @Column(nullable = false, unique = true)
     private String name;
 
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String description;
+
     @ManyToMany(mappedBy = "subscriptions")
     private List<User> subscribers = new ArrayList<>();
 

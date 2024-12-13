@@ -11,6 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 public class ThemeDto {
     String name;
+    String description;
     List<ArticleDto> articles;
     List<SubscriberDto> subscribers;
 
