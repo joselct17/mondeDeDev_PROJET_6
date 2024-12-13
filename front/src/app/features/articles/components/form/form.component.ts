@@ -6,6 +6,8 @@ import { SessionService } from 'src/app/services/session.service';
 import { ArticleResponse } from '../../interfaces/api/articleResponse.interface';
 import { Article } from '../../interfaces/article.interface';
 import { ArticlesService } from '../../services/articles.service';
+import {Theme} from "../../../theme/interfaces/theme.interface";
+import {ThemeService} from "../../../theme/services/theme.service";
 
 @Component({
   selector: 'app-form',
@@ -25,12 +27,13 @@ export class FormComponent implements OnInit {
     private matSnackBar: MatSnackBar,
     private articlesService: ArticlesService,
     private sessionService: SessionService,
+    private themeService: ThemeService,
     private router: Router
   ) {
   }
 
   public ngOnInit(): void {
-    const url = this.router.url;
+    const url:string = this.router.url;
     if (url.includes('update')) {
       this.onUpdate = true;
       this.id = this.route.snapshot.paramMap.get('id')!;
@@ -43,36 +46,38 @@ export class FormComponent implements OnInit {
   }
 
   public submit(): void {
-    const formData = new FormData();
+    const formData:FormData = new FormData();
     formData.append('title', this.articleForm!.get('title')?.value);
     formData.append('content', this.articleForm!.get('content')?.value);
+    formData.append('theme', this.articleForm!.get('theme')?.value);
 
     if (!this.onUpdate) {
-      this.articlesService
-        .create(formData)
-        .subscribe((articleResponse: ArticleResponse) => this.exitPage(articleResponse));
+      this.articlesService.create(formData).subscribe((articleResponse: ArticleResponse) => this.exitPage(articleResponse));
     } else {
-      this.articlesService
-        .update(this.id!, formData)
-        .subscribe((articleResponse: ArticleResponse) => this.exitPage(articleResponse));
+      this.articlesService.update(this.id!, formData).subscribe((articleResponse: ArticleResponse) => this.exitPage(articleResponse));
     }
   }
 
   private initForm(article?: Article): void {
-    console.log(article);
-    console.log(this.sessionService.user!.id);
-
     this.articleForm = this.fb.group({
       name: [article ? article.name : '', [Validators.required]],
-      description: [article ? article.content : '', [Validators.required]],
+      content: [article ? article.content : '', [Validators.required]],
+      theme: [article ? article.theme : '', [Validators.required]]
     });
     if (!this.onUpdate) {
       this.articleForm.addControl('picture', this.fb.control('', [Validators.required]));
     }
   }
 
+  private loadThemes(): void {
+    // Assuming you have an endpoint to get the themes
+    this.themeService.all().subscribe((themes: Theme[]) => {
+      this.themes = themes;
+    });
+  }
+
   private exitPage(articleResponse: ArticleResponse): void {
     this.matSnackBar.open(articleResponse.content, "Close", { duration: 3000 });
-    this.router.navigate(['rentals']);
+    this.router.navigate(['articles']);
   }
 }

@@ -10,10 +10,11 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import { MeComponent } from './components/me/me.component';
 import {NgOptimizedImage} from "@angular/common";
 
+
 @NgModule({
   declarations: [
     AppComponent,
-    MeComponent
+    MeComponent,
   ],
   imports: [
     BrowserModule,

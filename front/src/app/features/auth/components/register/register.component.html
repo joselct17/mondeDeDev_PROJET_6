@@ -1,0 +1,27 @@
+<div class="register" fxLayout="column" fxLayoutAlign="center center">
+  <mat-card>
+    <mat-card-header fxLayoutAlign="center center">
+      <mat-card-title>Inscription</mat-card-title>
+    </mat-card-header>
+    <form class="register-form" [formGroup]="form" (ngSubmit)="submit()" fxLayout="column" fxLayoutGap="20px">
+      <mat-card-content fxLayout="column" fxLayoutGap="20px">
+        <mat-form-field fxFlex>
+          <mat-label>Nom de l'utilisateur</mat-label>
+          <input matInput placeholder="Name" formControlName="userName">
+        </mat-form-field>
+        <mat-form-field fxFlex>
+          <mat-label>Adresse e-mail</mat-label>
+          <input matInput placeholder="Email" formControlName="email">
+        </mat-form-field>
+        <mat-form-field fxFlex>
+          <mat-label>Mot de passe</mat-label>
+          <input matInput placeholder="Password" type="password" formControlName="password">
+        </mat-form-field>
+      </mat-card-content>
+      <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
+        <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Submit</button>
+      </mat-card-actions>
+      <span *ngIf="onError" class="error">An error occurred</span>
+    </form>
+  </mat-card>
+</div>

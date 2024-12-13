@@ -28,4 +28,18 @@
       }
     }
   }
+  /* Mode mobile */
+  @media (max-width: 768px) {
+    mat-toolbar {
+      .nav-links {
+        display: none; /* Cache les liens de navigation */
+      }
+
+      .logo-container {
+        justify-content: center; /* Centre le logo au milieu de l'écran */
+        margin: 0 auto;
+      }
+    }
+  }
 }
+
