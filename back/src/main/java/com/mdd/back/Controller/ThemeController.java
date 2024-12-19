@@ -11,7 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/themes")
@@ -27,9 +29,11 @@ public class ThemeController {
      * @return ResponseEntity containing an Iterable of ThemeDto representing all available themes
      */
     @GetMapping
-    public ResponseEntity<Iterable<ThemeDto>> getThemes() {
+    public ResponseEntity<Map<String, List<ThemeDto>>> getThemes() {
         List<ThemeDto> themes = themeService.getAllThemes();
-        return ResponseEntity.ok(themes);
+        Map<String, List<ThemeDto>> themeDtoMap = new HashMap<>();
+        themeDtoMap.put("themes", themes);
+        return ResponseEntity.ok(themeDtoMap);
     }
 
     /**

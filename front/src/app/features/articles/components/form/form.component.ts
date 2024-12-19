@@ -8,6 +8,8 @@ import { Article } from '../../interfaces/article.interface';
 import { ArticlesService } from '../../services/articles.service';
 import {Theme} from "../../../theme/interfaces/theme.interface";
 import {ThemeService} from "../../../theme/services/theme.service";
+import {catchError} from "rxjs";
+import {ThemesResponse} from "../../../theme/interfaces/api/themesResponse.interface";
 
 @Component({
   selector: 'app-form',
@@ -17,7 +19,8 @@ import {ThemeService} from "../../../theme/services/theme.service";
 export class FormComponent implements OnInit {
 
   public onUpdate: boolean = false;
-  public articleForm: FormGroup | undefined;
+  public articleForm!: FormGroup;
+  public themes: Theme[] = [];
 
   private id: string | undefined;
 
@@ -33,6 +36,7 @@ export class FormComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    this.loadThemes();
     const url:string = this.router.url;
     if (url.includes('update')) {
       this.onUpdate = true;
@@ -45,18 +49,25 @@ export class FormComponent implements OnInit {
     }
   }
 
+
   public submit(): void {
-    const formData:FormData = new FormData();
-    formData.append('title', this.articleForm!.get('title')?.value);
+    const formData: FormData = new FormData();
+    formData.append('name', this.articleForm!.get('name')?.value);
     formData.append('content', this.articleForm!.get('content')?.value);
     formData.append('theme', this.articleForm!.get('theme')?.value);
 
-    if (!this.onUpdate) {
-      this.articlesService.create(formData).subscribe((articleResponse: ArticleResponse) => this.exitPage(articleResponse));
-    } else {
-      this.articlesService.update(this.id!, formData).subscribe((articleResponse: ArticleResponse) => this.exitPage(articleResponse));
-    }
+    const article$ = this.onUpdate
+      ? this.articlesService.update(this.id!, formData)
+      : this.articlesService.create(formData);
+
+    article$.pipe(
+      catchError(error => {
+        this.matSnackBar.open("Error submitting form", "Close", { duration: 3000 });
+        return [];
+      })
+    ).subscribe((articleResponse: ArticleResponse) => this.exitPage(articleResponse));
   }
+
 
   private initForm(article?: Article): void {
     this.articleForm = this.fb.group({
@@ -70,14 +81,19 @@ export class FormComponent implements OnInit {
   }
 
   private loadThemes(): void {
-    // Assuming you have an endpoint to get the themes
-    this.themeService.all().subscribe((themes: Theme[]) => {
-      this.themes = themes;
+    this.themeService.all().subscribe((response: ThemesResponse) => {
+      console.log('Themes Response:', response); // Vérifiez la structure de la réponse
+      this.themes = response.themes;
+    }, (error) => {
+      console.error('Erreur lors du chargement des thèmes:', error);
     });
   }
 
+
+
   private exitPage(articleResponse: ArticleResponse): void {
     this.matSnackBar.open(articleResponse.content, "Close", { duration: 3000 });
+    this.articleForm.reset();
     this.router.navigate(['articles']);
   }
 }
