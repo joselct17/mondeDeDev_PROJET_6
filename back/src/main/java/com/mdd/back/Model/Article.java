@@ -29,7 +29,7 @@ public class Article {
     private LocalDateTime datePosted;
 
     @ManyToOne
-    @JoinColumn(name = "theme_id", nullable = false) // Relie l'article à un thème
+    @JoinColumn(name = "theme_id", nullable = false)
     private Theme theme;
 
     @ManyToOne

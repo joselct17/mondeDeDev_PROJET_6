@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -33,11 +34,6 @@ public class ThemeService {
                 .map(theme -> {
                     ThemeDto themeDto = modelMapper.map(theme, ThemeDto.class);
                     // Mapper les abonnés pour ne récupérer que l'email
-                    themeDto.setSubscribers(
-                            theme.getSubscribers().stream()
-                                    .map(subscriber -> new SubscriberDto(subscriber.getEmail()))
-                                    .collect(Collectors.toList())
-                    );
                     return themeDto;
                 })
                 .collect(Collectors.toList());
@@ -132,5 +128,21 @@ public class ThemeService {
         }
     }
 
+
+    public List<ThemeDto> getAllThemesWithSubscriptionStatus(User user) {
+        List<Theme> themes = themeRepository.findAll();
+        List<ThemeDto> themeResponses = new ArrayList<>();
+
+        for (Theme theme : themes) {
+            boolean isSubscribed = theme.getSubscribers().contains(user);
+            ThemeDto response = new ThemeDto();
+            response.setId(theme.getId());
+            response.setName(theme.getName());
+            response.setDescription(theme.getDescription());
+            response.setIsSubscribed(isSubscribed);
+            themeResponses.add(response);
+        }
+        return themeResponses;
+    }
 
 }

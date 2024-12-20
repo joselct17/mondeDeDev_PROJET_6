@@ -25,6 +25,4 @@ public class Theme {
     @ManyToMany(mappedBy = "subscriptions")
     private List<User> subscribers = new ArrayList<>();
 
-    @OneToMany(mappedBy = "theme", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Article> articles = new ArrayList<>();
 }

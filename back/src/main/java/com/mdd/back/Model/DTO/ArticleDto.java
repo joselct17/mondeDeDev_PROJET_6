@@ -13,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ArticleDto {
+    private Long id;
     private String name;
     private String content;
     private String theme;

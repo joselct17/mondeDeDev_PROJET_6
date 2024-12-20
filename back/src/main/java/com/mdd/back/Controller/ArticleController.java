@@ -31,7 +31,7 @@ public class ArticleController {
      * @return ResponseEntity<String> indicating successful creation of the article
      */
 
-    @PostMapping
+    @PostMapping(consumes = "application/json")
     public ResponseEntity<String> createArticle(@RequestBody ArticleDto articleDto, Principal principal) {
         User user = userRepository.findByEmail(principal.getName());
         log.info("Creating article: {}", articleDto);

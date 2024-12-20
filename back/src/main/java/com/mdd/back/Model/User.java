@@ -42,6 +42,6 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "theme_id")
     )
-    private List<Theme> subscriptions = new ArrayList<>(); // Liste des thèmes auxquels l'utilisateur est abonné
+    private List<Theme> subscriptions = new ArrayList<>();
 
 }

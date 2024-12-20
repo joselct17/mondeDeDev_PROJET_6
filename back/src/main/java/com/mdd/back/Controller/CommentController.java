@@ -11,7 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/comment")
@@ -50,9 +52,11 @@ public class CommentController {
      */
     // Récupérer les commentaires pour un article donné
     @GetMapping("/article/{articleId}")
-    public ResponseEntity<List<CommentDto>> getCommentsByArticle(@PathVariable Long articleId) {
+    public ResponseEntity<Map<String,List<CommentDto>>> getCommentsByArticle(@PathVariable Long articleId) {
         List<CommentDto> comments = commentService.getCommentsByArticle(articleId);
-        return ResponseEntity.ok(comments);
+        Map<String, List<CommentDto>> commentDtoMap = new HashMap();
+        commentDtoMap.put("comments", comments);
+        return ResponseEntity.ok(commentDtoMap);
     }
 
     /**

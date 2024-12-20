@@ -29,8 +29,11 @@ public class ThemeController {
      * @return ResponseEntity containing an Iterable of ThemeDto representing all available themes
      */
     @GetMapping
-    public ResponseEntity<Map<String, List<ThemeDto>>> getThemes() {
-        List<ThemeDto> themes = themeService.getAllThemes();
+    public ResponseEntity<Map<String, List<ThemeDto>>> getThemes(Principal principal) {
+        User user = userRepository.findByEmail(principal.getName());
+
+        List<ThemeDto> themes = themeService.getAllThemesWithSubscriptionStatus(user);
+
         Map<String, List<ThemeDto>> themeDtoMap = new HashMap<>();
         themeDtoMap.put("themes", themes);
         return ResponseEntity.ok(themeDtoMap);
