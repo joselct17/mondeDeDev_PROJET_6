@@ -1,0 +1,33 @@
+<div class="container mt-5">
+  <!-- Retour -->
+  <div class="mb-3">
+    <button class="btn btn-secondary" (click)="back()">
+      &larr; Retour
+    </button>
+  </div>
+
+  <!-- Section Profil -->
+  <h2>Mon Profil</h2>
+
+  <form class="mt-4" *ngIf="user">
+    <div class="mb-3">
+      <label for="username" class="form-label">Nom d'utilisateur</label>
+      <input type="text" class="form-control" id="username" [(ngModel)]="user.username" />
+    </div>
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input type="email" class="form-control" id="email" [(ngModel)]="user.email" />
+    </div>
+    <button type="button" class="btn btn-primary" (click)="saveProfile()">Sauvegarder</button>
+  </form>
+
+  <!-- Section des Thèmes -->
+  <h2>Mes Thèmes Abonnés</h2>
+
+  <div class="row g-4 mt-4" *ngIf="user?.subscribedThemes">
+    <div class="col-md-6 col-12" *ngFor="let theme of user?.subscribedThemes">
+      <app-theme-card [theme]="theme" (subscriptionToggle)="toggleSubscription($event)"></app-theme-card>
+    </div>
+  </div>
+</div>
+
