@@ -1,47 +1,64 @@
-<div class="login-container">
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>Se connecter</mat-card-title>
-    </mat-card-header>
-    <form [formGroup]="form" (ngSubmit)="submit()" fxLayout="column" fxLayoutGap="20px">
-      <mat-card-content>
-        <mat-form-field appearance="fill">
-          <mat-label>Email</mat-label>
-          <input matInput
-                 placeholder="pat@example.com"
-                 formControlName="email"
-                 (blur)="updateErrorMessage()"
-                 required />
-          <mat-error *ngIf="email?.invalid && email?.touched">
+<div class="login-container d-flex justify-content-center align-items-center vh-100">
+  <div class="card shadow-lg p-4" style="max-width: 400px; width: 100%; border-radius: 12px;">
+    <div class="card-header text-center">
+      <h4 class="card-title">Se connecter</h4>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <div class="card-body">
+
+        <!-- Champ Email -->
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input
+            type="email"
+            id="email"
+            class="form-control"
+            placeholder="pat@example.com"
+            formControlName="email"
+            required
+            (blur)="updateErrorMessage()">
+          <div class="text-danger mt-1" *ngIf="email?.invalid && email?.touched">
             {{ errorMessage }}
-          </mat-error>
-        </mat-form-field>
+          </div>
+        </div>
 
-        <mat-form-field appearance="fill">
-          <mat-label>Mot de passe</mat-label>
-          <input matInput
-                 [type]="hide ? 'password' : 'text'"
-                 formControlName="password"
-                 required />
-          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Toggle password visibility'">
-            <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+        <!-- Champ Mot de passe -->
+        <div class="mb-3 position-relative">
+          <label for="password" class="form-label">Mot de passe</label>
+          <input
+            [type]="hide ? 'password' : 'text'"
+            id="password"
+            class="form-control"
+            formControlName="password"
+            required>
+          <button
+            type="button"
+            class="btn btn-outline-secondary btn-sm position-absolute top-50 end-0 translate-middle-y me-2"
+            (click)="hide = !hide">
+            <i class="bi" [ngClass]="hide ? 'bi-eye-slash' : 'bi-eye'"></i>
           </button>
-          <mat-error *ngIf="password?.invalid && password?.touched">
+          <div class="text-danger mt-1" *ngIf="password?.invalid && password?.touched">
             Le mot de passe est requis et doit contenir au moins 3 caractères.
-          </mat-error>
-        </mat-form-field>
-      </mat-card-content>
+          </div>
+        </div>
 
-      <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
-        <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid || isLoading">
+      </div>
+
+      <div class="card-footer d-flex justify-content-center">
+        <button
+          type="submit"
+          class="btn btn-primary w-100"
+          [disabled]="form.invalid || isLoading"
+          style="background-color: #7763C5; border-color: #7763C5;">
           Se connecter
         </button>
-      </mat-card-actions>
+      </div>
 
-      <div *ngIf="onError" class="error-message">
+      <div *ngIf="onError" class="text-center text-danger mt-3">
         {{ errorMessage }}
       </div>
     </form>
-  </mat-card>
+  </div>
 </div>
 

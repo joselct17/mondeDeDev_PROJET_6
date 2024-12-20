@@ -14,12 +14,13 @@
 
 button {
   margin: 10px 0;
+
 }
 
 .button-container {
   display: flex;
   flex-direction: row;
-  gap: 10px;
+  gap: 50px;
 }
 
 @media screen and (max-width: 740px) {

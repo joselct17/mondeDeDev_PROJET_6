@@ -1,23 +1,24 @@
-import {Injectable} from "@angular/core";
-import {CanActivate, Router} from "@angular/router";
-import { SessionService } from "../services/session.service";
+import { Injectable } from '@angular/core';
+import { CanActivate, Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import {SessionService} from "../services/session.service";
 
-@Injectable({providedIn: 'root'})
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthGuard implements CanActivate {
 
-  constructor(
-    private router: Router,
-    private sessionService: SessionService,
-  ) {
-  }
+  constructor(private sessionService: SessionService, private router: Router) {}
 
-  public canActivate(): boolean {
-    if (!this.sessionService.isLogged) {
-      this.sessionService.setRedirectUrl(this.router.url); // Enregistrer l'URL cible
-      this.router.navigate(['login']);
-      return false;
-    }
-    return true;
+  canActivate(): Observable<boolean> {
+    return this.sessionService.$isLogged().pipe(
+      map(isLogged => {
+        if (!isLogged) {
+          this.router.navigate(['/login']);
+        }
+        return isLogged;
+      })
+    );
   }
-
 }

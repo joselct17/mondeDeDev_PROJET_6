@@ -1,45 +1,6 @@
-.app {
-  mat-toolbar {
-    background-color: white;
-    color: black;
-    border: 1px solid #e0e0e0;
-    .logo-container {
-      display: flex;
-      align-items: center;
-      img.logo {
-        max-height: 70px;
-      width: auto;
-      margin-right: 20px;
-      }
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: revert;
-
-      .link {
-        cursor: pointer;
-        font-size: 16px;
-        text-decoration: none;
-      }
-
-      .link + .link {
-        margin-left: 10px;
-      }
-    }
-  }
-  /* Mode mobile */
-  @media (max-width: 768px) {
-    mat-toolbar {
-      .nav-links {
-        display: none; /* Cache les liens de navigation */
-      }
-
-      .logo-container {
-        justify-content: center; /* Centre le logo au milieu de l'écran */
-        margin: 0 auto;
-      }
-    }
-  }
+.offcanvas-half {
+  width: 50% !important; /* Largeur de 50% */
+  max-width: 50% !important; /* Empêche d'atteindre 100% */
 }
+
 

@@ -15,6 +15,7 @@ import { User } from 'src/app/interfaces/user.interface';
 export class RegisterComponent {
 
   public onError = false;
+  hide: boolean = true;
 
   public form:FormGroup = this.fb.group({
     email: ['', [Validators.required, Validators.email]],

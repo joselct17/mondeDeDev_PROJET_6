@@ -1,27 +1,78 @@
-<div class="register" fxLayout="column" fxLayoutAlign="center center">
-  <mat-card>
-    <mat-card-header fxLayoutAlign="center center">
-      <mat-card-title>Inscription</mat-card-title>
-    </mat-card-header>
-    <form class="register-form" [formGroup]="form" (ngSubmit)="submit()" fxLayout="column" fxLayoutGap="20px">
-      <mat-card-content fxLayout="column" fxLayoutGap="20px">
-        <mat-form-field fxFlex>
-          <mat-label>Nom de l'utilisateur</mat-label>
-          <input matInput placeholder="Name" formControlName="userName">
-        </mat-form-field>
-        <mat-form-field fxFlex>
-          <mat-label>Adresse e-mail</mat-label>
-          <input matInput placeholder="Email" formControlName="email">
-        </mat-form-field>
-        <mat-form-field fxFlex>
-          <mat-label>Mot de passe</mat-label>
-          <input matInput placeholder="Password" type="password" formControlName="password">
-        </mat-form-field>
-      </mat-card-content>
-      <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
-        <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Submit</button>
-      </mat-card-actions>
-      <span *ngIf="onError" class="error">An error occurred</span>
+<div class="register d-flex justify-content-center align-items-center vh-100">
+  <div class="card shadow-lg p-4" style="max-width: 400px; width: 100%; border-radius: 12px;">
+    <div class="card-header text-center">
+      <h4 class="card-title">Inscription</h4>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <div class="card-body">
+
+        <!-- Champ Nom de l'utilisateur -->
+        <div class="mb-3">
+          <label for="userName" class="form-label">Nom de l'utilisateur</label>
+          <input
+            type="text"
+            id="userName"
+            class="form-control"
+            placeholder="Name"
+            formControlName="userName"
+            required>
+          <div class="text-danger mt-1" *ngIf="form.get('userName')?.invalid && form.get('userName')?.touched">
+            Le nom d'utilisateur est requis.
+          </div>
+        </div>
+
+        <!-- Champ Adresse e-mail -->
+        <div class="mb-3">
+          <label for="email" class="form-label">Adresse e-mail</label>
+          <input
+            type="email"
+            id="email"
+            class="form-control"
+            placeholder="Email"
+            formControlName="email"
+            required>
+          <div class="text-danger mt-1" *ngIf="form.get('email')?.invalid && form.get('email')?.touched">
+            L'adresse e-mail est requise.
+          </div>
+        </div>
+
+        <!-- Champ Mot de passe -->
+        <div class="mb-3 position-relative">
+          <label for="password" class="form-label">Mot de passe</label>
+          <input
+            [type]="hide ? 'password' : 'text'"
+            id="password"
+            class="form-control"
+            placeholder="Password"
+            formControlName="password"
+            required>
+          <button
+            type="button"
+            class="btn btn-outline-secondary btn-sm position-absolute top-50 end-0 translate-middle-y me-2"
+            (click)="hide = !hide">
+            <i class="bi" [ngClass]="hide ? 'bi-eye-slash' : 'bi-eye'"></i>
+          </button>
+          <div class="text-danger mt-1" *ngIf="form.get('password')?.invalid && form.get('password')?.touched">
+            Le mot de passe est requis.
+          </div>
+        </div>
+
+      </div>
+
+      <div class="card-footer d-flex justify-content-center">
+        <button
+          type="submit"
+          class="btn btn-primary w-100"
+          [disabled]="form.invalid"
+          style="background-color: #7763C5; border-color: #7763C5;">
+          Inscription
+        </button>
+      </div>
+
+      <div *ngIf="onError" class="text-center text-danger mt-3">
+        Une erreur est survenue
+      </div>
     </form>
-  </mat-card>
+  </div>
 </div>

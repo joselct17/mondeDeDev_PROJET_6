@@ -12,19 +12,23 @@ import {User} from "./interfaces/user.interface";
 })
 export class AppComponent {
   title = 'front';
+  public isLandingPage: boolean = false;
+
+  public isLogged$: Observable<boolean>;
 
   constructor(
     private authService: AuthService,
     private router: Router,
     private sessionService: SessionService) {
+    this.router.events.subscribe(() => {
+      this.isLandingPage = this.router.url === '/' || this.router.url === '/landing';
+    });
+
+    this.isLogged$ = this.sessionService.$isLogged();
   }
 
   public ngOnInit(): void {
     this.autoLog();
-  }
-
-  public $isLogged(): Observable<boolean> {
-    return this.sessionService.$isLogged();
   }
 
   public logout(): void {

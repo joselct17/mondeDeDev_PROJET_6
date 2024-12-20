@@ -34,4 +34,7 @@ export class AuthService {
     return this.httpClient.get<User>(`${this.pathService}/auth/me`);
   }
 
+  updateProfile(user: User) {
+    return this.httpClient.put<User>(`${this.pathService}/auth/update`, user);
+  }
 }

@@ -1,40 +1,37 @@
 .login-container {
-  margin-top: 30px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center; /* Centre verticalement */
-  height: 100vh; /* Assure que la div occupe toute la hauteur de la fenêtre */
+  height: 100vh;
+  background-color: #f8f9fa; /* Optionnel, pour donner un fond gris */
+}
 
-  mat-card {
-    margin: 20px;
-    max-width: 400px; /* Limite la largeur de la carte */
-    width: 100%;
-    background-color: #fff; /* Ajoute un fond blanc */
-    padding: 20px; /* Ajoute un peu d'espace autour */
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Légère ombre pour l'esthétique */
-    border-radius: 8px; /* Coins arrondis */
-  }
+.card {
+  border-radius: 12px !important; /* Coins arrondis pour la carte */
+}
 
-  mat-card-header {
-    text-align: center;
-  }
+.form-control {
+  border-radius: 8px !important; /* Bordure arrondie pour les champs d'entrée */
+  border: 2px solid #000 !important; /* Bordure noire */
+  background-color: #fff !important; /* Fond blanc */
+}
 
-  mat-card-content {
-    display: flex;
-    flex-direction: column;
-    gap: 20px; /* Espace entre les champs */
-  }
+.form-control:focus {
+  box-shadow: none !important; /* Empêche le glow de focus par défaut */
+  border-color: #7763C5 !important; /* Couleur de focus personnalisée */
+}
 
-  mat-card-actions {
-    margin-top: 20px;
-    text-align: center;
-  }
+.btn-primary {
+  background-color: #7763C5 !important;
+  border-color: #7763C5 !important;
+}
 
-  .error-message {
-    color: red;
-    font-size: 14px;
-    margin-top: 10px;
-    text-align: center;
-  }
+.btn-primary:hover {
+  background-color: #5e4cb3 !important;
+  border-color: #5e4cb3 !important;
+}
+
+.text-danger {
+  font-size: 14px;
+}
+
+button.btn-outline-secondary {
+  border: none !important;
 }
