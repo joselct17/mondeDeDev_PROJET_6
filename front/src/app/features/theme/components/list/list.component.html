@@ -1,0 +1,35 @@
+<div class="themes-container container-fluid mt-5">
+  <!-- Bouton d'ajout d'un nouveau thème -->
+  <div class="d-flex justify-content-center justify-content-md-start mb-4 mt-5">
+    <button class="btn btn-primary" routerLink="/themes/create">
+      Ajouter un thème
+    </button>
+  </div>
+
+  <!-- Vérifie si les thèmes sont chargés -->
+  <div *ngIf="themes | async as themesResponse; else loading">
+    <div *ngIf="themesResponse.themes && themesResponse.themes.length > 0; else noThemes">
+
+      <div class="row g-4">
+        <div class="col-md-6 col-12" *ngFor="let theme of themesResponse.themes">
+          <!-- On utilise le composant app-theme-card -->
+          <app-theme-card
+            [theme]="theme"
+            (subscriptionToggle)="toggleSubscription($event)">
+          </app-theme-card>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Template pour afficher le message si aucun thème n'est disponible -->
+  <ng-template #noThemes>
+    <p class="text-center text-muted">Aucun thème disponible pour le moment.</p>
+  </ng-template>
+
+  <!-- Template pour afficher le chargement -->
+  <ng-template #loading>
+    <p class="text-center text-muted">Chargement des thèmes...</p>
+  </ng-template>
+</div>

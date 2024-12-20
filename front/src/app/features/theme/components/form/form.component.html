@@ -1,0 +1,62 @@
+<form [formGroup]="articleForm" (ngSubmit)="submit()" class="container mt-4">
+
+  <!-- Titre du formulaire -->
+  <h2 *ngIf="!onUpdate" class="text-center mb-4">Créer un nouveau thème</h2>
+  <h2 *ngIf="onUpdate" class="text-center mb-4">Modifier le thème</h2>
+
+  <!-- Champ de saisie pour le titre -->
+  <div class="mb-3">
+    <label for="title" class="form-label">Titre</label>
+    <input type="text"
+           class="form-control"
+           id="title"
+           formControlName="title"
+           placeholder="Entrez le titre du thème"
+           [class.is-invalid]="articleForm?.get('title')?.invalid && articleForm?.get('title')?.touched">
+
+    <div *ngIf="articleForm?.get('title')?.hasError('required') && articleForm?.get('title')?.touched" class="invalid-feedback">
+      Le titre est obligatoire.
+    </div>
+    <div *ngIf="articleForm?.get('title')?.hasError('minlength') && articleForm?.get('title')?.touched" class="invalid-feedback">
+      Le titre doit contenir au moins 3 caractères.
+    </div>
+  </div>
+
+  <!-- Champ de saisie pour la description -->
+  <div class="mb-3">
+    <label for="description" class="form-label">Description</label>
+    <textarea
+      class="form-control"
+      id="description"
+      formControlName="description"
+      rows="3"
+      placeholder="Entrez la description du thème"
+      [class.is-invalid]="articleForm?.get('description')?.invalid && articleForm?.get('description')?.touched">
+    </textarea>
+
+    <div *ngIf="articleForm?.get('description')?.hasError('required') && articleForm?.get('description')?.touched" class="invalid-feedback">
+      La description est obligatoire.
+    </div>
+    <div *ngIf="articleForm?.get('description')?.hasError('minlength') && articleForm?.get('description')?.touched" class="invalid-feedback">
+      La description doit contenir au moins 10 caractères.
+    </div>
+  </div>
+
+  <!-- Boutons d'action -->
+  <div class="d-flex justify-content-between mt-4">
+    <button
+      type="submit"
+      class="btn btn-primary"
+      [disabled]="!articleForm?.valid">
+      {{ onUpdate ? 'Mettre à jour' : 'Créer' }}
+    </button>
+    <button
+      type="button"
+      class="btn btn-outline-danger"
+      (click)="router.navigate(['/themes'])">
+      Annuler
+    </button>
+  </div>
+
+</form>
+

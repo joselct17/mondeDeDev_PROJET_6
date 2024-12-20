@@ -1,0 +1,18 @@
+<div class="card shadow-lg h-100" style="border-radius: 12px;">
+  <div class="card-header">
+    <h5 class="card-title">{{ theme.name }}</h5>
+  </div>
+  <div class="card-body">
+    <p class="card-text">{{ theme.description | slice: 0:150 }}...</p>
+  </div>
+  <div class="card-footer text-center">
+    <button
+      class="btn"
+      [ngClass]="theme.isSubscribed ? 'btn-danger' : 'btn-primary'"
+      (click)="toggleSubscription()"
+    >
+      {{ theme.isSubscribed ? 'Se désabonner' : 'S\'abonner' }}
+    </button>
+  </div>
+</div>
+

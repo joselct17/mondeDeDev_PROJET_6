@@ -10,6 +10,7 @@ import {CommonModule} from "@angular/common";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ThemeRoutingModule} from "./theme-routing.module";
 import {FormComponent} from "./components/form/form.component";
+import {ThemeCardComponent} from "./components/themeCard/themeCard.component";
 
 
 const materialModules = [
@@ -26,7 +27,8 @@ const materialModules = [
 @NgModule({
   declarations: [
     ListComponent,
-    FormComponent
+    FormComponent,
+    ThemeCardComponent
   ],
   imports: [
     CommonModule,
@@ -34,6 +36,9 @@ const materialModules = [
     ReactiveFormsModule,
     ThemeRoutingModule,
     ...materialModules
+  ],
+  exports: [
+    ThemeCardComponent
   ],
   providers: [
     {
