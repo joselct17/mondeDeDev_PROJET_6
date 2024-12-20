@@ -51,22 +51,24 @@ export class FormComponent implements OnInit {
 
 
   public submit(): void {
-    const formData: FormData = new FormData();
-    formData.append('name', this.articleForm!.get('name')?.value);
-    formData.append('content', this.articleForm!.get('content')?.value);
-    formData.append('theme', this.articleForm!.get('theme')?.value);
+    const article = {
+      name: this.articleForm.get('name')?.value,
+      content: this.articleForm.get('content')?.value,
+      theme: this.articleForm.get('theme')?.value,
+    };
 
     const article$ = this.onUpdate
-      ? this.articlesService.update(this.id!, formData)
-      : this.articlesService.create(formData);
+      ? this.articlesService.update(this.id!, article)
+      : this.articlesService.create(article);
 
     article$.pipe(
-      catchError(error => {
+      catchError((error) => {
         this.matSnackBar.open("Error submitting form", "Close", { duration: 3000 });
         return [];
       })
     ).subscribe((articleResponse: ArticleResponse) => this.exitPage(articleResponse));
   }
+
 
 
   private initForm(article?: Article): void {
@@ -75,20 +77,18 @@ export class FormComponent implements OnInit {
       content: [article ? article.content : '', [Validators.required]],
       theme: [article ? article.theme : '', [Validators.required]]
     });
-    if (!this.onUpdate) {
-      this.articleForm.addControl('picture', this.fb.control('', [Validators.required]));
-    }
+    // Vérifiez si le formulaire est valide
+    console.log('Form Validity:', this.articleForm.valid);
   }
 
   private loadThemes(): void {
     this.themeService.all().subscribe((response: ThemesResponse) => {
-      console.log('Themes Response:', response); // Vérifiez la structure de la réponse
+      console.log('Themes Response:', response); // Vérifiez ici
       this.themes = response.themes;
     }, (error) => {
       console.error('Erreur lors du chargement des thèmes:', error);
     });
   }
-
 
 
   private exitPage(articleResponse: ArticleResponse): void {

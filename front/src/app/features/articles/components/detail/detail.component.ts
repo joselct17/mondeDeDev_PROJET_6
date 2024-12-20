@@ -1,64 +1,72 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { Article } from 'src/app/features/articles/interfaces/article.interface';
-import { SessionService } from 'src/app/services/session.service';
-import { CommentaireRequest } from '../../interfaces/api/commentaireRequest.interface';
-import { CommentaireResponse } from '../../interfaces/api/commentaireResponse.interface';
-import { CommentairesService } from '../../services/commentaires.service';
-import { ArticlesService } from '../../services/articles.service';
+import { Article } from '../../interfaces/article.interface';
+import {ArticlesService} from "../../services/articles.service";
+import {CommentairesService} from "../../services/commentaires.service";
+import {CommentaireRequest} from "../../interfaces/api/commentaireRequest.interface";
+import {Comment} from "@angular/compiler";
+import {CommentaireResponse} from "../../interfaces/api/commentaireResponse.interface";
+import {SessionService} from "../../../../services/session.service";
 
 @Component({
-  selector: 'app-detail',
+  selector: 'app-article-detail',
   templateUrl: './detail.component.html',
   styleUrls: ['./detail.component.scss']
 })
-export class DetailComponent implements OnInit {
-
-  public messageForm!: FormGroup;
-  public article: Article | undefined;
+export class ArticleDetailComponent implements OnInit {
+  article: Article | null = null; // Contient les données de l'article
+  comments:  { username: string; content: string }[] = [];
+  newComment: string = '';
 
   constructor(
     private route: ActivatedRoute,
-    private fb: FormBuilder,
-    private messagesService: CommentairesService,
-    private articlesService: ArticlesService,
-    private sessionService: SessionService,
-    private matSnackBar: MatSnackBar) {
-    this.initMessageForm();
+    private articleService: ArticlesService,
+    private commentaireService: CommentairesService,
+    private sessionService:SessionService
+  ) {}
+
+  ngOnInit(): void {
+    const id = this.route.snapshot.paramMap.get('id'); // Récupération de l'ID dans l'URL
+    if (id) {
+      this.loadArticleDetails(id); // Charger les détails de l'article
+    }
   }
 
-  public ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id')!
-
-    this.articlesService
-      .detail(id)
-      .subscribe((article: Article) => this.article = article);
-  }
-
-  public back() {
-    window.history.back();
-  }
-
-  public sendMessage(): void {
-    const message = {
-      rental_id: this.article!.id,
-      user_id: this.sessionService.user?.id,
-      message: this.messageForm.value.message
-    } as CommentaireRequest;
-
-    this.messagesService.send(message).subscribe(
-      (messageResponse: CommentaireResponse) => {
-        this.initMessageForm();
-        this.matSnackBar.open(messageResponse.message, "Close", { duration: 3000 });
-      });
-  }
-
-  private initMessageForm() {
-    this.messageForm = this.fb.group({
-      message: ['', [Validators.required, Validators.min(10)]],
+  loadArticleDetails(id: string): void {
+    this.articleService.detail(id).subscribe((article:Article) => {
+      this.article = article;
+      this.comments = article.comments || []; // Exemple pour: Article | null récupérer les commentaires
     });
   }
 
+
+  postComment(): void {
+    if (!this.newComment.trim()) {
+      alert('Le commentaire est vide');
+      return;
+    }
+
+    const commentRequest: CommentaireRequest = {
+      article_id: this.article!.id, // L'ID de l'article en tant que article_id
+      user_id:this.sessionService.isLogged?this.sessionService.user!.id:0 ,
+      message: this.newComment,
+    };
+
+    this.commentaireService.send(commentRequest).subscribe(
+      (response: CommentaireResponse) => {
+        // Ajouter le commentaire localement après succès
+        this.comments.push({
+          username: 'Vous', // Par exemple, le nom de l'utilisateur connecté
+          content: this.newComment,
+        });
+
+        // Réinitialiser le champ de commentaire
+        this.newComment = '';
+        alert('Commentaire posté avec succès');
+      },
+      (error) => {
+        alert('Erreur lors de l\'envoi du commentaire');
+      }
+    );
+  }
 }

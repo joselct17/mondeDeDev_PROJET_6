@@ -1,0 +1,50 @@
+<div class="article-detail-container container-fluid mt-5">
+  <!-- Retour -->
+  <div class="mb-3">
+    <a routerLink="/articles" class="text-decoration-none">
+      <span>&larr; Retour</span>
+    </a>
+  </div>
+
+  <!-- Titre de l'article -->
+  <h2 class="title">{{ article?.name }}</h2>
+
+  <!-- Meta informations -->
+  <div class="meta-info d-flex justify-content-between">
+    <span>Date: {{ article?.created_at | date }}</span>
+    <span>Auteur: {{ article?.author }}</span>
+  </div>
+
+  <!-- Contenu de l'article -->
+  <div class="content mt-4">
+    <p>{{ article?.content }}</p>
+  </div>
+
+  <!-- Ligne séparatrice -->
+  <hr>
+
+  <!-- Commentaires -->
+  <h5>Commentaires</h5>
+  <div *ngFor="let comment of comments" class="comment mt-3">
+    <div class="username">
+      <strong>{{ comment.username }}</strong>
+    </div>
+    <div class="comment-content bg-light p-2 rounded">
+      {{ comment.content }}
+    </div>
+  </div>
+
+  <!-- Ajouter un commentaire -->
+  <div class="add-comment mt-4">
+    <textarea
+      [(ngModel)]="newComment"
+      class="form-control"
+      rows="3"
+      placeholder="Écrivez ici votre commentaire"
+    ></textarea>
+    <button class="btn btn-primary mt-2 float-end" (click)="postComment()">
+      <i class="bi bi-send"></i> Envoyer
+    </button>
+  </div>
+</div>
+

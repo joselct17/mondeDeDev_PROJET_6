@@ -1,46 +1,46 @@
-<div class="articles-container">
- <button mat-raised-button color="primary" routerLink="/articles/create">Ajouter un article</button>
+<div class="articles-container container-fluid mt-5">
+  <!-- Bouton d'ajout d'un nouvel article -->
+  <div class="d-flex justify-content-center justify-content-md-start mb-4 mt-5">
+    <button class="btn btn-primary" routerLink="/articles/create">
+      Ajouter un article
+    </button>
+  </div>
 
   <!-- Vérifie si les articles sont chargés -->
   <div *ngIf="articles | async as articlesResponse; else loading">
     <div *ngIf="articlesResponse.articles && articlesResponse.articles.length > 0; else noArticles">
-      <!-- Conteneur des cartes -->
-      <div class="article-list">
-        <mat-card class="article-card" *ngFor="let article of articlesResponse.articles">
-          <mat-card-header>
-            <mat-card-title>{{ article.name }}</mat-card-title>
-            <mat-card-subtitle>Publié par {{ article.author }} le {{ article.created_at | date: 'dd/MM/yyyy' }}</mat-card-subtitle>
-          </mat-card-header>
-          <mat-card-content>
-            <p>{{ article.content | slice: 0:150 }}...</p>
-          </mat-card-content>
-          <mat-card-actions align="end">
-            <button mat-button color="primary">Lire plus</button>
-          </mat-card-actions>
-        </mat-card>
+
+      <!-- Conteneur des cartes (2 articles par row sur grand écran, 1 par ligne sur mobile) -->
+      <div class="row g-4">
+        <div
+          class="col-md-6 col-12"
+          *ngFor="let article of articlesResponse.articles">
+          <div class="card shadow-lg h-100" style="border-radius: 12px;">
+            <div class="card-header">
+              <h5 class="card-title mb-1">{{ article.name }}</h5>
+              <p class="card-subtitle text-muted">Date {{ article.created_at | date: 'dd/MM/yyyy' }} • Auteur {{ article.author }}</p>
+            </div>
+            <div class="card-body">
+              <p class="card-text">{{ article.content | slice: 0:150 }}...</p>
+            </div>
+            <div class="card-footer text-end">
+              <button class="btn btn-link text-primary p-0" [routerLink]="['/articles/detail', article.id]">Lire plus</button>
+            </div>
+          </div>
+        </div>
       </div>
+
     </div>
   </div>
 
   <!-- Template pour afficher le message si aucun article n'est disponible -->
   <ng-template #noArticles>
-    <p class="no-articles-message">Aucun article disponible pour le moment.</p>
+    <p class="text-center text-muted">Aucun article disponible pour le moment.</p>
   </ng-template>
 
   <!-- Template pour afficher le chargement -->
   <ng-template #loading>
-    <p class="loading-message">Chargement des articles...</p>
-  </ng-template>
-
-
-  <!-- Affiché si les articles sont en cours de chargement -->
-  <ng-template #loading>
-    <p>Chargement des articles...</p>
-  </ng-template>
-
-  <!-- Affiché si aucun article n'est disponible -->
-  <ng-template #noArticles>
-    <p>Aucun article disponible.</p>
+    <p class="text-center text-muted">Chargement des articles...</p>
   </ng-template>
 </div>
 

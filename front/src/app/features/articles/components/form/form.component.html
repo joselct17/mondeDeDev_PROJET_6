@@ -1,34 +1,69 @@
-<form [formGroup]="articleForm" (ngSubmit)="submit()">
-  <mat-form-field appearance="fill">
-    <mat-label>Name</mat-label>
-    <input matInput formControlName="name" required>
-    <mat-error *ngIf="articleForm.get('name')?.invalid && (articleForm.get('name')?.touched || articleForm.get('name')?.dirty)">
-      Name is required
-    </mat-error>
-  </mat-form-field>
+<div class="create-article-container d-flex justify-content-center align-items-center vh-100">
+  <div class="card shadow-lg p-4" style="max-width: 500px; width: 100%; border-radius: 12px;">
 
-  <mat-form-field appearance="fill">
-    <mat-label>Content</mat-label>
-    <textarea matInput formControlName="content" required></textarea>
-    <mat-error *ngIf="articleForm.get('content')?.invalid && articleForm.get('content')?.touched">
-      Content is required
-    </mat-error>
-  </mat-form-field>
+    <!-- Bouton de retour -->
+    <a href="#" class="back-button mb-3 d-inline-block">
+      <span>&larr;</span> Retour
+    </a>
 
-  <mat-form-field appearance="fill">
-    <mat-label>Theme</mat-label>
-    <mat-select formControlName="theme">
-      <mat-option *ngFor="let theme of themes" [value]="theme.id">
-        {{ theme.name }}
-      </mat-option>
-    </mat-select>
-    <mat-error *ngIf="articleForm.get('theme')?.invalid && articleForm.get('theme')?.touched">
-      Theme is required
-    </mat-error>
-  </mat-form-field>
+    <!-- Titre de la page -->
+    <header class="text-center mb-4">
+      <h1>Créer un nouvel article</h1>
+    </header>
 
+    <!-- Formulaire -->
+    <form [formGroup]="articleForm" (ngSubmit)="submit()">
+      <div class="mb-3">
+        <label for="theme" class="form-label">Sélectionner un thème</label>
+        <select id="theme" formControlName="theme" class="form-select">
+          <option *ngFor="let theme of themes" [value]="theme.id">
+            {{ theme.name }}
+          </option>
+        </select>
+        <div class="text-danger mt-1" *ngIf="articleForm.get('theme')?.invalid && articleForm.get('theme')?.touched">
+          Le thème est requis
+        </div>
+      </div>
 
-  <button mat-raised-button color="primary" type="submit" [disabled]="articleForm.invalid">
-    {{ onUpdate ? 'Update Article' : 'Create Article' }}
-  </button>
-</form>
+      <div class="mb-3">
+        <label for="name" class="form-label">Titre de l'article</label>
+        <input
+          type="text"
+          id="name"
+          class="form-control"
+          formControlName="name"
+          placeholder="Entrez le titre de l'article"
+          required>
+        <div class="text-danger mt-1" *ngIf="articleForm.get('name')?.invalid && articleForm.get('name')?.touched">
+          Le titre est requis
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="content" class="form-label">Contenu de l'article</label>
+        <textarea
+          id="content"
+          class="form-control large-textarea"
+          formControlName="content"
+          rows="8"
+          placeholder="Entrez le contenu de l'article ici..."
+          required></textarea>
+        <div class="text-danger mt-1" *ngIf="articleForm.get('content')?.invalid && articleForm.get('content')?.touched">
+          Le contenu est requis
+        </div>
+      </div>
+
+      <div class="d-grid mt-4">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="articleForm.invalid"
+          style="background-color: #7763C5; border-color: #7763C5;">
+          Créer
+        </button>
+      </div>
+    </form>
+
+  </div>
+</div>
+

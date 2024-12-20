@@ -6,6 +6,7 @@ export interface Article {
 	content: string,
 	author: String,
   theme:Theme,
+  comments: any[],
 	created_at: Date,
 	updated_at: Date
 }

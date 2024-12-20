@@ -21,14 +21,16 @@ export class ArticlesService {
   }
 
   public detail(id: string): Observable<Article> {
-    return this.httpClient.get<Article>(`${this.pathService}/${id}`);
+    return this.httpClient.get<Article>(`${this.pathService}/articles/${id}`);
   }
 
-  public create(form: FormData): Observable<ArticleResponse> {
-    return this.httpClient.post<ArticleResponse>(this.pathService, form);
+  public create(article: { name: any; theme: any; content: any }): Observable<ArticleResponse> {
+    return this.httpClient.post<ArticleResponse>(`${this.pathService}/articles`, article, {
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 
-  public update(id: string, form: FormData): Observable<ArticleResponse> {
-    return this.httpClient.put<ArticleResponse>(`${this.pathService}/${id}`, form);
+  public update(id: string, article: { name: any; theme: any; content: any }): Observable<ArticleResponse> {
+    return this.httpClient.put<ArticleResponse>(`${this.pathService}/${id}`, article);
   }
 }
