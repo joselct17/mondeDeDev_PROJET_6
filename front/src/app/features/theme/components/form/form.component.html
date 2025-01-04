@@ -1,24 +1,23 @@
-<form [formGroup]="articleForm" (ngSubmit)="submit()" class="container mt-4">
-
+<form [formGroup]="themeForm" (ngSubmit)="submit()" class="container mt-4">
   <!-- Titre du formulaire -->
-  <h2 *ngIf="!onUpdate" class="text-center mb-4">Créer un nouveau thème</h2>
-  <h2 *ngIf="onUpdate" class="text-center mb-4">Modifier le thème</h2>
+  <h2 class="text-center mb-4">Créer un nouveau thème</h2>
 
-  <!-- Champ de saisie pour le titre -->
+  <!-- Champ de saisie pour le nom -->
   <div class="mb-3">
-    <label for="title" class="form-label">Titre</label>
-    <input type="text"
-           class="form-control"
-           id="title"
-           formControlName="title"
-           placeholder="Entrez le titre du thème"
-           [class.is-invalid]="articleForm?.get('name')?.invalid && articleForm?.get('name')?.touched">
-
-    <div *ngIf="articleForm?.get('name')?.hasError('required') && articleForm?.get('name')?.touched" class="invalid-feedback">
-      Le titre est obligatoire.
+    <label for="name" class="form-label">Nom du thème</label>
+    <input
+      type="text"
+      id="name"
+      class="form-control"
+      formControlName="name"
+      placeholder="Entrez le nom du thème"
+      [class.is-invalid]="themeForm.get('name')?.invalid && themeForm.get('name')?.touched"
+    >
+    <div *ngIf="themeForm.get('name')?.hasError('required') && themeForm.get('name')?.touched" class="invalid-feedback">
+      Le nom du thème est obligatoire.
     </div>
-    <div *ngIf="articleForm?.get('name')?.hasError('minlength') && articleForm?.get('name')?.touched" class="invalid-feedback">
-      Le titre doit contenir au moins 3 caractères.
+    <div *ngIf="themeForm.get('name')?.hasError('minlength') && themeForm.get('name')?.touched" class="invalid-feedback">
+      Le nom doit contenir au moins 3 caractères.
     </div>
   </div>
 
@@ -26,18 +25,17 @@
   <div class="mb-3">
     <label for="description" class="form-label">Description</label>
     <textarea
-      class="form-control"
       id="description"
+      class="form-control"
       formControlName="description"
       rows="3"
-      placeholder="Entrez la description du thème"
-      [class.is-invalid]="articleForm?.get('description')?.invalid && articleForm?.get('description')?.touched">
-    </textarea>
-
-    <div *ngIf="articleForm?.get('description')?.hasError('required') && articleForm?.get('description')?.touched" class="invalid-feedback">
+      placeholder="Entrez une description pour le thème"
+      [class.is-invalid]="themeForm.get('description')?.invalid && themeForm.get('description')?.touched"
+    ></textarea>
+    <div *ngIf="themeForm.get('description')?.hasError('required') && themeForm.get('description')?.touched" class="invalid-feedback">
       La description est obligatoire.
     </div>
-    <div *ngIf="articleForm?.get('description')?.hasError('minlength') && articleForm?.get('description')?.touched" class="invalid-feedback">
+    <div *ngIf="themeForm.get('description')?.hasError('minlength') && themeForm.get('description')?.touched" class="invalid-feedback">
       La description doit contenir au moins 10 caractères.
     </div>
   </div>
@@ -47,16 +45,16 @@
     <button
       type="submit"
       class="btn btn-primary"
-      [disabled]="!articleForm?.valid">
-      {{ onUpdate ? 'Mettre à jour' : 'Créer' }}
+      [disabled]="themeForm.invalid"
+    >
+      Créer
     </button>
     <button
       type="button"
       class="btn btn-outline-danger"
-      (click)="router.navigate(['/themes'])">
+      (click)="cancel()"
+    >
       Annuler
     </button>
   </div>
-
 </form>
-
