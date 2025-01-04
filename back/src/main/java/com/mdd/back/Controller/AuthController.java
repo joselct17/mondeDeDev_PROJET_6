@@ -65,7 +65,6 @@ public class AuthController {
 
         String password = loginDto.getPassword();
         String token = authenticationService.loginAndGenerateToken(identifier, password);
-        log.debug("Generated JWT token: {}", token);
         return ResponseEntity.ok(new AuthResponse(token));
     }
 
