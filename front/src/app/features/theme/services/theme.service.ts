@@ -21,7 +21,7 @@ export class ThemeService {
   }
 
   // Créer un thème
-  public create(form: { title: string; description: string }): Observable<ThemeResponse> {
+  public create(form: { name: string; description: string }): Observable<ThemeResponse> {
     return this.httpClient.post<ThemeResponse>(this.pathService, form);
   }
 
