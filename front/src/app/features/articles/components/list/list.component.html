@@ -18,7 +18,7 @@
           <div class="card shadow-lg h-100" style="border-radius: 12px;">
             <div class="card-header">
               <h5 class="card-title mb-1">{{ article.name }}</h5>
-              <p class="card-subtitle text-muted">Date {{ article.created_at | date: 'dd/MM/yyyy' }} • Auteur {{ article.author }}</p>
+              <p class="card-subtitle text-muted">Date {{ article.datePosted | date: 'dd/MM/yyyy' }} • Auteur {{ article.author }}</p>
             </div>
             <div class="card-body">
               <p class="card-text">{{ article.content | slice: 0:150 }}...</p>
