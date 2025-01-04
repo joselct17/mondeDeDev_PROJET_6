@@ -7,6 +7,6 @@ export interface Article {
 	author: string,
   theme:Theme,
   comments: any[],
-	created_at: Date,
+  datePosted: Date,
 	updated_at: Date
 }
