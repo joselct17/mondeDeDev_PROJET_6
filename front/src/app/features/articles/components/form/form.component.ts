@@ -51,6 +51,11 @@ export class FormComponent implements OnInit {
 
 
   public submit(): void {
+    if (this.articleForm.invalid) {
+      this.matSnackBar.open('Veuillez remplir correctement le formulaire', 'Fermer', { duration: 3000 });
+      return;
+    }
+
     const article = {
       name: this.articleForm.get('name')?.value,
       content: this.articleForm.get('content')?.value,
@@ -61,13 +66,15 @@ export class FormComponent implements OnInit {
       ? this.articlesService.update(this.id!, article)
       : this.articlesService.create(article);
 
-    article$.pipe(
-      catchError((error) => {
-        this.matSnackBar.open("Error submitting form", "Close", { duration: 3000 });
-        return [];
-      })
-    ).subscribe((articleResponse: ArticleResponse) => this.exitPage(articleResponse));
+    article$.subscribe({
+      next: (articleResponse: ArticleResponse) => this.exitPage(articleResponse),
+      error: (error) => {
+        console.error('Erreur lors de l\'envoi du formulaire :', error);
+        this.matSnackBar.open('Erreur lors de la soumission du formulaire', 'Fermer', { duration: 3000 });
+      }
+    });
   }
+
 
 
 
@@ -92,8 +99,10 @@ export class FormComponent implements OnInit {
 
 
   private exitPage(articleResponse: ArticleResponse): void {
-    this.matSnackBar.open(articleResponse.content, "Close", { duration: 3000 });
+    const message = articleResponse?.name ? `Article "${articleResponse.name}" créé avec succès` : 'Article créé avec succès';
+    this.matSnackBar.open(message, 'Fermer', { duration: 3000 });
     this.articleForm.reset();
-    this.router.navigate(['articles']);
+    this.router.navigate(['/articles']);
   }
+
 }
