@@ -32,12 +32,18 @@ public class ArticleController {
      */
 
     @PostMapping(consumes = "application/json")
-    public ResponseEntity<String> createArticle(@RequestBody ArticleDto articleDto, Principal principal) {
+    public ResponseEntity<Map<String, String>> createArticle(@RequestBody ArticleDto articleDto, Principal principal) {
         User user = userRepository.findByEmail(principal.getName());
         log.info("Creating article: {}", articleDto);
         articleService.createArticle(articleDto, user);
-        return ResponseEntity.ok("Article created successfully");
+
+        // Construire une réponse JSON
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Article created successfully");
+
+        return ResponseEntity.ok(response);
     }
+
 
     /**
      * Retrieves all articles from the database.
