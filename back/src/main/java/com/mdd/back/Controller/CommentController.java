@@ -31,17 +31,34 @@ public class CommentController {
      * @return ResponseEntity contenant un message indiquant que le commentaire a été ajouté avec succès
      */
     @PostMapping
-    public ResponseEntity<String> addComment(@RequestBody CommentDto commentDto, Principal principal) {
+    public ResponseEntity<Map<String, String>> addComment(@RequestBody CommentDto commentDto, Principal principal) {
         try {
+            // Récupérer l'utilisateur connecté
             User user = userRepository.findByEmail(principal.getName());
+            if (user == null) {
+                throw new RuntimeException("Utilisateur non trouvé.");
+            }
+
+            // Associer l'utilisateur au commentaire
             commentDto.setUser_id(user.getId());
 
+            // Ajouter le commentaire via le service
             commentService.addComment(commentDto);
-            return ResponseEntity.ok("Comment added successfully");
+
+            // Réponse en cas de succès
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Comment added successfully");
+            return ResponseEntity.ok(response);
+
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error adding comment: " + e.getMessage());
+            // Réponse en cas d'erreur
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", "Error adding comment");
+            errorResponse.put("details", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
     }
+
 
 
     /**
