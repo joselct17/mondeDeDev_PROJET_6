@@ -2,6 +2,7 @@ package com.mdd.back.Controller;
 
 
 import com.mdd.back.Model.DTO.CommentDto;
+import com.mdd.back.Model.DTO.CommentResponseDto;
 import com.mdd.back.Model.User;
 import com.mdd.back.Repository.UserRepository;
 import com.mdd.back.Service.CommentService;
@@ -50,12 +51,13 @@ public class CommentController {
      * @return ResponseEntity containing a list of CommentDto objects representing the comments for the article
      */
     @GetMapping("/article/{articleId}")
-    public ResponseEntity<Map<String,List<CommentDto>>> getCommentsByArticle(@PathVariable Long articleId) {
-        List<CommentDto> comments = commentService.getCommentsByArticle(articleId);
-        Map<String, List<CommentDto>> commentDtoMap = new HashMap();
-        commentDtoMap.put("comments", comments);
-        return ResponseEntity.ok(commentDtoMap);
+    public ResponseEntity<Map<String, List<CommentResponseDto>>> getCommentsByArticle(@PathVariable Long articleId) {
+        List<CommentResponseDto> comments = commentService.getCommentsByArticle(articleId);
+        Map<String, List<CommentResponseDto>> response = new HashMap<>();
+        response.put("comments", comments);
+        return ResponseEntity.ok(response);
     }
+
 
     /**
      * Delete a comment by its ID.
