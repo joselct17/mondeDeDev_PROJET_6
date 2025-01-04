@@ -57,12 +57,14 @@ public class ThemeController {
      * @return ResponseEntity indicating the success of subscribing to the theme
      */
     @PostMapping("/subscribe/{themeId}")
-    public ResponseEntity<String> subscribeToTheme(@PathVariable Integer themeId, Principal principal) {
+    public ResponseEntity<Map<String, String>>subscribeToTheme(@PathVariable Integer themeId, Principal principal) {
 
         User subscriber = userRepository.findByEmail(principal.getName());
 
         themeService.subscribeToTheme(themeId, subscriber);
-        return ResponseEntity.ok("Subscribed to theme successfully");
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Subscribed to theme successfully");
+        return ResponseEntity.ok(response);
     }
 
     /**
@@ -72,10 +74,12 @@ public class ThemeController {
      * @return ResponseEntity indicating the success of unsubscribing from the theme with a message "Unsubscribed from theme successfully"
      */
     @DeleteMapping("/unsubscribe/{themeId}")
-    public ResponseEntity<String> unsubscribeFromTheme(@PathVariable Integer themeId, Principal principal) {
+    public ResponseEntity<Map<String, String>> unsubscribeFromTheme(@PathVariable Integer themeId, Principal principal) {
         User subscriber = userRepository.findByEmail(principal.getName());
 
         themeService.unsubscribeFromTheme(themeId, subscriber);
-        return ResponseEntity.ok("Unsubscribed from theme successfully");
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Unsubscribed from theme successfully");
+        return ResponseEntity.ok(response);
     }
 }
