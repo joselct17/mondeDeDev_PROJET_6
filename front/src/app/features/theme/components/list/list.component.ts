@@ -7,6 +7,7 @@ import {User} from "../../../../interfaces/user.interface";
 import {ThemesResponse} from "../../interfaces/api/themesResponse.interface";
 import {ThemeService} from "../../services/theme.service";
 import {ThemeResponse} from "../../interfaces/api/themeResponse.interface";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-theme',
@@ -19,6 +20,7 @@ export class ListComponent {
 
   constructor(
     private themeService: ThemeService,
+    private matSnackBar: MatSnackBar,
   ) {
   }
 
@@ -28,22 +30,22 @@ export class ListComponent {
       // Désabonnement
       this.themeService.unsubscribe(theme.id).subscribe(
         (response:ThemeResponse) => {
-          alert('Désabonné avec succès');
+          this.matSnackBar.open('Désabonné avec sucées', 'Fermer', { duration: 3000 });
           theme.isSubscribed = false; // Met à jour l'état local
         },
         (error) => {
-          alert('Erreur lors du désabonnement');
+          this.matSnackBar.open('Erreur lors du désabonnement', 'Fermer', { duration: 3000 });
         }
       );
     } else {
       // Souscription
       this.themeService.subscribe(theme.id).subscribe(
         (response) => {
-          alert('Abonné avec succès');
+          this.matSnackBar.open('Abonné avec sucées', 'Fermer', { duration: 3000 });
           theme.isSubscribed = true; // Met à jour l'état local
         },
         (error) => {
-          alert('Erreur lors de la souscription');
+          this.matSnackBar.open('Erreur lors de la souscription', 'Fermer', { duration: 3000 });
         }
       );
     }
