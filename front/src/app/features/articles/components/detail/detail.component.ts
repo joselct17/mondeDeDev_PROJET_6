@@ -54,6 +54,7 @@ export class ArticleDetailComponent implements OnInit {
 
     this.commentaireService.send(commentRequest).subscribe(
       (response: CommentaireResponse) => {
+        console.log('Réponse API:', response);
         // Ajouter le commentaire localement après succès
         this.comments.push({
           userName: this.article?.author || 'Auteur inconnu',
