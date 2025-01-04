@@ -6,5 +6,5 @@ export interface ArticleResponse {
   content: string;
   date: Date;
   author: string;
-  theme:Theme,
+  theme:string,
 }
