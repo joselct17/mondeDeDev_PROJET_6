@@ -75,7 +75,39 @@ public class ArticleService {
      * @param id The ID of the article to retrieve
      * @return ArticleDto representing the article with the provided ID, or null if not found
      */
+    /**
+     * Retrieves an article by its ID.
+     *
+     * @param id The ID of the article to retrieve
+     * @return ArticleDto representing the article with the provided ID, or null if not found
+     */
     public ArticleDto getArticleById(Long id) {
-        return modelMapper.map(articleRepository.findById(id).orElse(null), ArticleDto.class);
+        return articleRepository.findById(id)
+                .map(article -> {
+                    ArticleDto articleDto = modelMapper.map(article, ArticleDto.class);
+
+                    // Mapper les informations de l'auteur
+                    articleDto.setAuthor(article.getUser().getUsername());
+
+                    // Mapper le thème
+                    articleDto.setTheme(article.getTheme().getName());
+
+                    // Mapper les commentaires
+                    articleDto.setComments(
+                            article.getComments().stream()
+                                    .map(comment -> {
+                                        CommentResponseDto commentDto = new CommentResponseDto();
+                                        commentDto.setContent(comment.getContent());
+                                        commentDto.setDatePosted(comment.getDatePosted());
+                                        commentDto.setUserName(comment.getUser().getUsername());
+                                        return commentDto;
+                                    })
+                                    .collect(Collectors.toList())
+                    );
+
+                    return articleDto;
+                })
+                .orElse(null); // Retourner null si l'article n'existe pas
     }
+
 }
