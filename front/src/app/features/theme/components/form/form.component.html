@@ -1,4 +1,12 @@
-<form [formGroup]="themeForm" (ngSubmit)="submit()" class="container mt-4">
+<div class="create-theme-container d-flex justify-content-center align-items-center vh-100">
+<div class="card shadow-lg p-4" style="max-width: 500px; width: 100%; border-radius: 12px;">
+
+  <!-- Bouton de retour -->
+  <a href="/themes" class="back-button mb-3 d-inline-block">
+    <span>&larr;</span> Retour
+  </a>
+
+  <form [formGroup]="themeForm" (ngSubmit)="submit()" class="container mt-4">
   <!-- Titre du formulaire -->
   <h2 class="text-center mb-4">Créer un nouveau thème</h2>
 
@@ -58,3 +66,5 @@
     </button>
   </div>
 </form>
+</div>
+</div>

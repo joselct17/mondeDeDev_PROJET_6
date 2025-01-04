@@ -90,7 +90,6 @@ export class FormComponent implements OnInit {
 
   private loadThemes(): void {
     this.themeService.all().subscribe((response: ThemesResponse) => {
-      console.log('Themes Response:', response); // Vérifiez ici
       this.themes = response.themes;
     }, (error) => {
       console.error('Erreur lors du chargement des thèmes:', error);

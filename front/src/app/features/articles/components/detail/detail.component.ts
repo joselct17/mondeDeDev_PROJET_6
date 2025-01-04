@@ -7,6 +7,7 @@ import {CommentaireRequest} from "../../interfaces/api/commentaireRequest.interf
 import {Comment} from "@angular/compiler";
 import {CommentaireResponse} from "../../interfaces/api/commentaireResponse.interface";
 import {SessionService} from "../../../../services/session.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-article-detail',
@@ -21,6 +22,7 @@ export class ArticleDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private articleService: ArticlesService,
+    private matSnackBar: MatSnackBar,
     private commentaireService: CommentairesService,
     private sessionService: SessionService
   ) {
@@ -54,7 +56,6 @@ export class ArticleDetailComponent implements OnInit {
 
     this.commentaireService.send(commentRequest).subscribe(
       (response: CommentaireResponse) => {
-        console.log('Réponse API:', response);
         // Ajouter le commentaire localement après succès
         this.comments.push({
           userName: this.article?.author || 'Auteur inconnu',
@@ -63,10 +64,14 @@ export class ArticleDetailComponent implements OnInit {
 
         // Réinitialiser le champ de commentaire
         this.newComment = '';
-        alert('Commentaire posté avec succès');
+        this.matSnackBar.open('Commentaire posté avec succès', 'Fermer', {
+          duration: 3000
+        })
       },
       (error) => {
-        alert('Erreur lors de l\'envoi du commentaire');
+        this.matSnackBar.open('Erreur lors de l\'envoi du commentaire', 'Fermer', {
+          duration: 3000
+        })
       }
     );
   }

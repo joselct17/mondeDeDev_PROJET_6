@@ -9,18 +9,31 @@
   <!-- Section Profil -->
   <h2>Mon Profil</h2>
 
-  <form class="mt-4" *ngIf="user">
+  <form [formGroup]="profileForm" class="mt-4">
     <div class="mb-3">
       <label for="username" class="form-label">Nom d'utilisateur</label>
-      <input type="text" class="form-control" id="username" [(ngModel)]="user.username" />
+      <input
+        type="text"
+        class="form-control"
+        id="username"
+        formControlName="username"
+      />
     </div>
     <div class="mb-3">
       <label for="email" class="form-label">Email</label>
-      <input type="email" class="form-control" id="email" [(ngModel)]="user.email" />
+      <input
+        type="email"
+        class="form-control"
+        id="email"
+        formControlName="email"
+      />
     </div>
-    <button type="button" class="btn btn-primary" (click)="saveProfile()">Sauvegarder</button>
+    <button type="button" class="btn btn-primary" (click)="saveProfile()">
+      Sauvegarder
+    </button>
   </form>
 
+<hr>
   <!-- Section des Thèmes -->
   <h2>Mes Thèmes Abonnés</h2>
 

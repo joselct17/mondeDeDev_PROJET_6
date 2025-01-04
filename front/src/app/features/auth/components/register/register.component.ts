@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { SessionService } from 'src/app/services/session.service';
 import { AuthService } from '../../services/auth.service';
 import { RegisterRequest } from '../../interfaces/registerRequest.interface';
@@ -13,33 +14,57 @@ import { User } from 'src/app/interfaces/user.interface';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent {
-
   public onError = false;
   hide: boolean = true;
 
-  public form:FormGroup = this.fb.group({
+  public form: FormGroup = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
-    userName: ['', [Validators.required, Validators.min(3)]],
-    password: ['', [Validators.required, Validators.min(3)]]
+    userName: ['', [Validators.required, Validators.minLength(3)]],
+    password: ['', [Validators.required, Validators.minLength(3)]]
   });
 
-  constructor(private authService: AuthService,
+  constructor(
+    private authService: AuthService,
     private fb: FormBuilder,
     private router: Router,
-    private sessionService: SessionService) { }
+    private sessionService: SessionService,
+    private matSnackBar: MatSnackBar // Inject MatSnackBar
+  ) {}
 
   public submit(): void {
-    const registerRequest:RegisterRequest = this.form.value as RegisterRequest;
-    this.authService.register(registerRequest).subscribe(
-      (response: AuthSuccess) => {
+    if (this.form.invalid) {
+      this.matSnackBar.open('Veuillez remplir tous les champs correctement.', 'Fermer', {
+        duration: 3000
+      });
+      return;
+    }
+
+    const registerRequest: RegisterRequest = this.form.value as RegisterRequest;
+    this.authService.register(registerRequest).subscribe({
+      next: (response: AuthSuccess) => {
+        // Stocker le token dans le localStorage
         localStorage.setItem('token', response.token);
+
+        // Récupérer les informations utilisateur
         this.authService.me().subscribe((user: User) => {
           this.sessionService.logIn(user);
-          this.router.navigate(['/rentals'])
+
+          // Afficher le snackBar de succès
+          this.matSnackBar.open('Utilisateur enregistré avec succès.', 'Fermer', {
+            duration: 3000
+          });
+
+          // Rediriger vers /articles
+          this.router.navigate(['/articles']);
         });
       },
-      error => this.onError = true
-    );
+      error: () => {
+        // Afficher un snackBar d'erreur
+        this.matSnackBar.open('Erreur lors de l’enregistrement de l’utilisateur.', 'Fermer', {
+          duration: 3000
+        });
+        this.onError = true;
+      }
+    });
   }
-
 }
