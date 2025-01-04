@@ -3,6 +3,7 @@ package com.mdd.back.Service;
 import com.mdd.back.Model.Article;
 import com.mdd.back.Model.Comment;
 import com.mdd.back.Model.DTO.CommentDto;
+import com.mdd.back.Model.DTO.CommentResponseDto;
 import com.mdd.back.Model.User;
 import com.mdd.back.Repository.ArticleRepository;
 import com.mdd.back.Repository.CommentRepository;
@@ -53,12 +54,19 @@ public class CommentService {
     }
 
     // Récupérer les commentaires par article
-    public List<CommentDto> getCommentsByArticle(Long articleId) {
+    public List<CommentResponseDto> getCommentsByArticle(Long articleId) {
         List<Comment> comments = commentRepository.findByArticleId(articleId);
         return comments.stream()
-                .map(comment -> modelMapper.map(comment, CommentDto.class))
+                .map(comment -> {
+                    CommentResponseDto responseDto = new CommentResponseDto();
+                    responseDto.setContent(comment.getContent());
+                    responseDto.setDatePosted(comment.getDatePosted());
+                    responseDto.setUserName(comment.getUser().getUsername()); // Assurez-vous que la relation User est chargée
+                    return responseDto;
+                })
                 .collect(Collectors.toList());
     }
+
 
     // Supprimer un commentaire
     public void deleteComment(Long commentId) {
