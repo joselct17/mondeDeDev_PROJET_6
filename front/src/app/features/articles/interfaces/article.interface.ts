@@ -4,7 +4,7 @@ export interface Article {
 	id: number,
 	name: string,
 	content: string,
-	author: String,
+	author: string,
   theme:Theme,
   comments: any[],
 	created_at: Date,
