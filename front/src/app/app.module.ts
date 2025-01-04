@@ -9,7 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatToolbarModule} from "@angular/material/toolbar";
 import { MeComponent } from './components/me/me.component';
 import {NgOptimizedImage} from "@angular/common";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ThemesModule} from "./features/theme/themes.module";
 
 
@@ -26,7 +26,8 @@ import {ThemesModule} from "./features/theme/themes.module";
         MatToolbarModule,
         NgOptimizedImage,
         FormsModule,
-        ThemesModule
+        ThemesModule,
+        ReactiveFormsModule
     ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}
