@@ -4,6 +4,8 @@ import { ThemeService } from 'src/app/features/theme/services/theme.service';
 import { User } from 'src/app/interfaces/user.interface';
 import { Theme } from 'src/app/features/theme/interfaces/theme.interface';
 import {Observable} from "rxjs";
+import {ThemeResponse} from "../../features/theme/interfaces/api/themeResponse.interface";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-me',
@@ -15,6 +17,7 @@ export class MeComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private themeService: ThemeService,
+    private matSnackBar: MatSnackBar,
     private cd: ChangeDetectorRef // Inject ChangeDetectorRef
   ) {}
 
@@ -35,26 +38,28 @@ export class MeComponent implements OnInit {
     });
   }
 
-  // Fonction de souscription / désabonnement
-  toggleSubscription(theme: Theme): void {
+  // Action de souscription
+  toggleSubscription(theme: any): void {
     if (theme.isSubscribed) {
+      // Désabonnement
       this.themeService.unsubscribe(theme.id).subscribe(
-        () => {
-          alert('Désabonné avec succès');
+        (response:ThemeResponse) => {
+          this.matSnackBar.open('Désabonné avec sucées', 'Fermer', { duration: 3000 });
           theme.isSubscribed = false; // Met à jour l'état local
         },
         (error) => {
-          alert('Erreur lors du désabonnement');
+          this.matSnackBar.open('Erreur lors du désabonnement', 'Fermer', { duration: 3000 });
         }
       );
     } else {
+      // Souscription
       this.themeService.subscribe(theme.id).subscribe(
-        () => {
-          alert('Abonné avec succès');
+        (response) => {
+          this.matSnackBar.open('Abonné avec sucées', 'Fermer', { duration: 3000 });
           theme.isSubscribed = true; // Met à jour l'état local
         },
         (error) => {
-          alert('Erreur lors de la souscription');
+          this.matSnackBar.open('Erreur lors de la souscription', 'Fermer', { duration: 3000 });
         }
       );
     }
