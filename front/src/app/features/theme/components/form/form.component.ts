@@ -29,8 +29,8 @@ export class FormComponent implements OnInit {
   ) {
     // Initialisation du formulaire
     this.articleForm = this.fb.group({
-      title: ['', [Validators.required, Validators.minLength(3)]],
-      description: ['', [Validators.required, Validators.minLength(10)]]
+      name: ['name', [Validators.required, Validators.minLength(3)]],
+      description: ['description', [Validators.required, Validators.minLength(10)]]
     });
   }
 

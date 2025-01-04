@@ -12,12 +12,12 @@
            id="title"
            formControlName="title"
            placeholder="Entrez le titre du thème"
-           [class.is-invalid]="articleForm?.get('title')?.invalid && articleForm?.get('title')?.touched">
+           [class.is-invalid]="articleForm?.get('name')?.invalid && articleForm?.get('name')?.touched">
 
-    <div *ngIf="articleForm?.get('title')?.hasError('required') && articleForm?.get('title')?.touched" class="invalid-feedback">
+    <div *ngIf="articleForm?.get('name')?.hasError('required') && articleForm?.get('name')?.touched" class="invalid-feedback">
       Le titre est obligatoire.
     </div>
-    <div *ngIf="articleForm?.get('title')?.hasError('minlength') && articleForm?.get('title')?.touched" class="invalid-feedback">
+    <div *ngIf="articleForm?.get('name')?.hasError('minlength') && articleForm?.get('name')?.touched" class="invalid-feedback">
       Le titre doit contenir au moins 3 caractères.
     </div>
   </div>
