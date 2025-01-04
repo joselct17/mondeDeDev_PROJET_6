@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, Router } from '@angular/router';
-import { SessionService } from 'src/app/services/session.service';
+import { Router } from '@angular/router';
 import { ThemeResponse } from '../../interfaces/api/themeResponse.interface';
-import { Theme } from '../../interfaces/theme.interface';
 import { ThemeService } from '../../services/theme.service';
 
 @Component({
@@ -14,51 +12,50 @@ import { ThemeService } from '../../services/theme.service';
 })
 export class FormComponent implements OnInit {
 
-  public onUpdate: boolean = false;
-  public articleForm: FormGroup;
-
-  private id: string | undefined;
+  public themeForm!: FormGroup;
 
   constructor(
-    private route: ActivatedRoute,
     private fb: FormBuilder,
     private matSnackBar: MatSnackBar,
     private themeService: ThemeService,
-    private sessionService: SessionService,
-    protected router: Router
+    private router: Router
   ) {
     // Initialisation du formulaire
-    this.articleForm = this.fb.group({
-      name: ['name', [Validators.required, Validators.minLength(3)]],
-      description: ['description', [Validators.required, Validators.minLength(10)]]
+    this.themeForm = this.fb.group({
+      name: ['', [Validators.required, Validators.minLength(3)]],
+      description: ['', [Validators.required, Validators.minLength(10)]]
     });
   }
 
   ngOnInit(): void {
-    const url: string = this.router.url;
-    if (url.includes('update')) {
-      this.onUpdate = true;
-      this.id = this.route.snapshot.paramMap.get('id')!;
-      this.themeService.detail(this.id).subscribe((theme: Theme) => {
-        this.articleForm.patchValue({
-          name: theme.name,
-          description: theme.description
-        });
-      });
-    }
+    // Pas d'autres actions nécessaires ici puisque ce formulaire est uniquement pour la création
   }
 
+  /**
+   * Soumet le formulaire pour créer un thème
+   */
   public submit(): void {
-    const theme = this.articleForm.value;
+    if (this.themeForm.invalid) {
+      return;
+    }
+
+    const theme = this.themeForm.value;
+
     this.themeService.create(theme).subscribe(
-      (themeResponse: ThemeResponse) => this.exitPage(themeResponse),
-      (error) => this.matSnackBar.open('Erreur lors de la création', 'Fermer', { duration: 3000 })
+      (themeResponse: ThemeResponse) => {
+        this.matSnackBar.open('Thème créé avec succès', 'Fermer', { duration: 3000 });
+        this.router.navigate(['/themes']);
+      },
+      (error) => {
+        this.matSnackBar.open('Erreur lors de la création du thème', 'Fermer', { duration: 3000 });
+      }
     );
   }
 
-
-  private exitPage(themeResponse: ThemeResponse): void {
-    this.matSnackBar.open('Opération réussie', 'Fermer', { duration: 3000 });
+  /**
+   * Annule l'action en cours et redirige vers la liste des thèmes
+   */
+  public cancel(): void {
     this.router.navigate(['/themes']);
   }
 }
