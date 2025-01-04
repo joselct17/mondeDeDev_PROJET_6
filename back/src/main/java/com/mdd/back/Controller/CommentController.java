@@ -29,7 +29,6 @@ public class CommentController {
      * @param commentDto objet CommentDto contenant les informations du commentaire à ajouter
      * @return ResponseEntity contenant un message indiquant que le commentaire a été ajouté avec succès
      */
-    // Ajouter un commentaire à un article
     @PostMapping
     public ResponseEntity<String> addComment(@RequestBody CommentDto commentDto, Principal principal) {
         try {
@@ -50,7 +49,6 @@ public class CommentController {
      * @param articleId the ID of the article for which to retrieve comments
      * @return ResponseEntity containing a list of CommentDto objects representing the comments for the article
      */
-    // Récupérer les commentaires pour un article donné
     @GetMapping("/article/{articleId}")
     public ResponseEntity<Map<String,List<CommentDto>>> getCommentsByArticle(@PathVariable Long articleId) {
         List<CommentDto> comments = commentService.getCommentsByArticle(articleId);
@@ -65,7 +63,6 @@ public class CommentController {
      * @param commentId the ID of the comment to be deleted
      * @return ResponseEntity indicating the success of the deletion operation
      */
-    // Supprimer un commentaire (optionnel)
     @DeleteMapping("/{commentId}")
     public ResponseEntity<String> deleteComment(@PathVariable Long commentId) {
         commentService.deleteComment(commentId);
