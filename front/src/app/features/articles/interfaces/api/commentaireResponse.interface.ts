@@ -1,3 +1,4 @@
 export interface CommentaireResponse {
-    message: string
+  userName : string
+  content: string
 }
