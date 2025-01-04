@@ -16,7 +16,7 @@
       <div class="mb-3">
         <label for="theme" class="form-label">Sélectionner un thème</label>
         <select id="theme" formControlName="theme" class="form-select">
-          <option *ngFor="let theme of themes" [value]="theme.id">
+          <option *ngFor="let theme of themes" [value]="theme.name">
             {{ theme.name }}
           </option>
         </select>
