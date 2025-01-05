@@ -106,6 +106,9 @@ public class UserService {
         if (userRepository.existsByEmail(userDto.getEmail())) {
             throw new RuntimeException("Email already in use");
         }
+        if (userRepository.existsByUsername(userDto.getUserName())) {
+            throw new RuntimeException("Username already in use");
+        }
 
         User user = mapToEntity(userDto);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
