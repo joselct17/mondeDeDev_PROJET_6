@@ -15,6 +15,8 @@ export class AppComponent {
   public isLandingPage: boolean = false;
 
   public isLogged$: Observable<boolean>;
+  isRegisterPage: boolean = false;
+  isLoginPage: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -22,6 +24,8 @@ export class AppComponent {
     private sessionService: SessionService) {
     this.router.events.subscribe(() => {
       this.isLandingPage = this.router.url === '/' || this.router.url === '/landing';
+      this.isLoginPage = this.router.url === '/login';
+      this.isRegisterPage = this.router.url === '/register';
     });
 
     this.isLogged$ = this.sessionService.$isLogged();
