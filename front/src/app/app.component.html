@@ -1,6 +1,6 @@
 <div class="app">
   <div class="app">
-    <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top">
+    <nav *ngIf="!isLandingPage" class="navbar navbar-expand-lg bg-body-tertiary fixed-top">
       <div class="container-fluid d-flex justify-content-between align-items-center">
         <!-- Logo à gauche -->
         <a class="navbar-brand" routerLink="/">
@@ -29,7 +29,12 @@
         <div class="offcanvas-body">
           <!-- Liens de navigation -->
           <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-
+            <li class="nav-item">
+              <a class="nav-link" *ngIf="isRegisterPage" routerLink="/login">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" *ngIf="isLoginPage" routerLink="/register">Register</a>
+            </li>
             <!-- Liens visibles uniquement si l'utilisateur est connecté -->
             <li class="nav-item" *ngIf="isLogged$ | async">
               <a class="nav-link" routerLink="/articles">Articles</a>
@@ -40,10 +45,9 @@
             <li class="nav-item" *ngIf="isLogged$ | async">
               <a class="nav-link" routerLink="/me">Profil</a>
             </li>
-
             <!-- Bouton Logout visible uniquement si connecté -->
             <li class="nav-item" *ngIf="isLogged$ | async">
-              <a class="nav-link" (click)="logout()">Logout</a>
+              <a class="nav-link" style="cursor: pointer" (click)="logout()">Logout</a>
             </li>
 
           </ul>
