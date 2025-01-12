@@ -1,5 +1,5 @@
 import { LOCALE_ID, NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import { ArticleRoutingModule } from './article-routing.module';
 import { ListComponent } from './components/list/list.component';
 import { FormComponent } from './components/form/form.component';
@@ -32,15 +32,16 @@ const materialModules = [
     FormComponent,
     ArticleDetailComponent
   ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    ArticleRoutingModule,
-    ...materialModules,
-    MatOptionModule,
-    MatSelectModule
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        ArticleRoutingModule,
+        ...materialModules,
+        MatOptionModule,
+        MatSelectModule,
+        NgOptimizedImage
+    ],
   providers: [
     {
       provide: LOCALE_ID,

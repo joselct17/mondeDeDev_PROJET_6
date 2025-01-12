@@ -1,11 +1,11 @@
-<div class="card shadow-lg h-100" style="border-radius: 12px;">
-  <div class="card-header">
-    <h5 class="card-title">{{ theme.name }}</h5>
+<div class="card theme-card  h-100 text-center" >
+  <div class="header">
+    <h5 class="title">{{ theme.name }}</h5>
   </div>
-  <div class="card-body">
-    <p class="card-text">{{ theme.description | slice: 0:150 }}...</p>
+  <div class="body">
+    <p class="text">{{ theme.description | slice: 0:150 }}...</p>
   </div>
-  <div class="card-footer text-center">
+  <div class="footer text-center">
     <button
       class="btn"
       [ngClass]="theme.isSubscribed ? 'btn-danger' : 'btn-primary'"

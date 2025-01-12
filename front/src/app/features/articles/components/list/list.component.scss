@@ -2,6 +2,12 @@
   padding: 20px;
 }
 
+.articleDiv {
+  background-color: #F5F5F5;
+  border-radius: 12px;
+  padding: 20px
+}
+
 .btn-primary {
   background-color: #7763C5 !important;
   border-color: #7763C5 !important;
@@ -18,40 +24,12 @@
 
 }
 
-.card-header {
-  color: black;
-  padding: 16px;
-  border-bottom: none;
-}
-
-.card-title {
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.card-subtitle {
-  font-size: 14px;
-  color: #e0e0e0;
-}
-
-.card-body {
-  padding: 20px;
-  font-size: 16px;
-  color: #333;
-
-}
-
-.card-footer {
-  padding: 16px;
-  border-top: none;
-}
-
-.card-footer .btn-link {
+ .footer .btn-link {
   color: #7763C5;
   font-weight: bold;
 }
 
-.card-footer .btn-link:hover {
+.footer .btn-link:hover {
   text-decoration: underline;
 }
 

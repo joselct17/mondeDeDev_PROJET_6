@@ -1,59 +1,59 @@
 <div class="app">
   <div class="app">
     <nav *ngIf="!isLandingPage" class="navbar navbar-expand-lg bg-body-tertiary fixed-top">
-      <div class="container-fluid d-flex justify-content-between align-items-center">
+      <div class="container-fluid">
         <!-- Logo à gauche -->
         <a class="navbar-brand" routerLink="/">
           <img src="assets/img/mdd-logo.png" alt="Logo" class="logo" style="width: 15%;">
         </a>
 
-        <!-- Bouton Burger (mobile) -->
+        <!-- Bouton Burger à droite -->
         <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="offcanvas"
-          data-bs-target="#offcanvasNavbar"
-          aria-controls="offcanvasNavbar"
-          aria-label="Toggle navigation"
+          class="navbar-toggler ms-auto"
+        type="button"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvasNavbar"
+        aria-controls="offcanvasNavbar"
+        aria-label="Toggle navigation"
         >
-          <span class="navbar-toggler-icon"></span>
+        <span class="navbar-toggler-icon"></span>
         </button>
-      </div>
 
-      <!-- Offcanvas menu (menu latéral sur mobile) -->
-      <div class="offcanvas offcanvas-end offcanvas-half" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-        <div class="offcanvas-header">
-          <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
-          <!-- Liens de navigation -->
-          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-            <li class="nav-item">
-              <a class="nav-link" *ngIf="isRegisterPage" routerLink="/login">Login</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" *ngIf="isLoginPage" routerLink="/register">Register</a>
-            </li>
-            <!-- Liens visibles uniquement si l'utilisateur est connecté -->
-            <li class="nav-item" *ngIf="isLogged$ | async">
-              <a class="nav-link" routerLink="/articles">Articles</a>
-            </li>
-            <li class="nav-item" *ngIf="isLogged$ | async">
-              <a class="nav-link" routerLink="/themes">Themes</a>
-            </li>
-            <li class="nav-item" *ngIf="isLogged$ | async">
-              <a class="nav-link" routerLink="/me">Profil</a>
-            </li>
-            <!-- Bouton Logout visible uniquement si connecté -->
-            <li class="nav-item" *ngIf="isLogged$ | async">
-              <a class="nav-link" style="cursor: pointer" (click)="logout()">Logout</a>
-            </li>
-
-          </ul>
+        <!-- Offcanvas menu (menu latéral sur mobile) -->
+        <div class="offcanvas offcanvas-end offcanvas-half" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <!-- Liens de navigation -->
+            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+              <li class="nav-item">
+                <a class="nav-link" *ngIf="isRegisterPage" routerLink="/login">Login</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" *ngIf="isLoginPage" routerLink="/register">Register</a>
+              </li>
+              <li class="nav-item" *ngIf="isLogged$ | async">
+                <a class="nav-link" routerLink="/articles">Articles</a>
+              </li>
+              <li class="nav-item" *ngIf="isLogged$ | async">
+                <a class="nav-link" routerLink="/themes">Themes</a>
+              </li>
+              <li class="nav-item" *ngIf="isLogged$ | async">
+                <a class="nav-link" routerLink="/me">Profil</a>
+              </li>
+              <li class="nav-item" *ngIf="isLogged$ | async">
+                <a class="nav-link" style="cursor: pointer" (click)="logout()">Logout</a>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </nav>
+
+
+
 
   </div>
 

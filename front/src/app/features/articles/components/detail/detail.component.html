@@ -7,45 +7,49 @@
   </div>
 
   <!-- Titre de l'article -->
-  <h2 class="title">{{ article?.name }}</h2>
+  <h2 class="title text-center">{{ article?.name }}</h2>
 
   <!-- Meta informations -->
-  <div class="meta-info d-flex justify-content-between">
+  <div class="meta-info d-flex justify-content-around my-3">
     <span>Date: {{ article?.datePosted | date }}</span>
     <span>Auteur: {{ article?.author }}</span>
     <span>Thème: {{ article?.theme }}</span>
   </div>
 
   <!-- Contenu de l'article -->
-  <div class="content mt-4">
+  <div class="content mt-4 px-3">
     <p>{{ article?.content }}</p>
   </div>
 
   <!-- Ligne séparatrice -->
-  <hr>
+  <hr class="my-4">
 
   <!-- Commentaires -->
-  <h5>Commentaires</h5>
-  <div *ngFor="let comment of comments" class="comment mt-3">
-    <div class="username">
-      <strong>{{ comment.userName }}</strong>
+  <h5 class="text-center">Commentaires</h5>
+  <div class="comments-section mx-auto" style="max-width: 800px;">
+    <div *ngFor="let comment of comments" class="comment my-3">
+      <div class="username mb-1">
+        <strong>{{ comment.userName }}</strong>
+      </div>
+      <div class="comment-content bg-light p-3 rounded">
+        {{ comment.content }}
+      </div>
     </div>
-    <div class="comment-content bg-light p-2 rounded">
-      {{ comment.content }}
-    </div>
-  </div>
 
-  <!-- Ajouter un commentaire -->
-  <div class="add-comment mt-4">
-    <textarea
-      [(ngModel)]="newComment"
-      class="form-control"
-      rows="3"
-      placeholder="Écrivez ici votre commentaire"
-    ></textarea>
-    <button class="btn btn-primary mt-2 float-end" (click)="postComment()">
-      <i class="bi bi-send"></i> Envoyer
-    </button>
+    <!-- Ajouter un commentaire -->
+    <div class="add-comment d-flex align-items-start mt-4">
+      <textarea
+        [(ngModel)]="newComment"
+        class="form-control me-2"
+        rows="2"
+        placeholder="Écrivez ici votre commentaire"
+        style="flex: 1; resize: none;">
+      </textarea>
+      <a class="btn-send d-flex align-items-center justify-content-center" (click)="postComment()">
+        <img src="assets/img/send.svg" alt="Envoyer">
+      </a>
+    </div>
   </div>
 </div>
+
 

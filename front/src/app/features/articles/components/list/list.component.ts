@@ -22,4 +22,19 @@ export class ListComponent {
   get user(): User | undefined {
     return this.sessionService.user;
   }
+
+
+  sortAscending: boolean = true;
+
+  toggleSort() {
+    this.sortAscending = !this.sortAscending;
+  }
+
+  sortedArticles(articles: any[]) {
+    return articles.sort((a, b) => {
+      const dateA = new Date(a.datePosted).getTime();
+      const dateB = new Date(b.datePosted).getTime();
+      return this.sortAscending ? dateA - dateB : dateB - dateA;
+    });
+  }
 }

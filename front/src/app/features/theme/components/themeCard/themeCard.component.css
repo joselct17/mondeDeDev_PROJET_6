@@ -7,3 +7,10 @@
   background-color: #5e4cb3 !important;
   border-color: #5e4cb3 !important;
 }
+
+.theme-card {
+  border-radius: 8px;
+  padding: 20px;
+  background-color: #F5F5F5;
+  overflow: hidden;
+  }
