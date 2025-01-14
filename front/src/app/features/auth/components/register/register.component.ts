@@ -52,7 +52,6 @@ export class RegisterComponent {
   ) {}
 
   public submit(): void {
-    console.log('Formulaire soumis:', this.form.value);
 
     if (this.form.invalid) {
       console.log('Formulaire invalide.');
@@ -63,26 +62,11 @@ export class RegisterComponent {
     }
 
     const registerRequest: RegisterRequest = this.form.value as RegisterRequest;
-    console.log('Envoi de la requête d’enregistrement:', registerRequest);
 
     this.authService.register(registerRequest).subscribe({
-      next: (response: AuthSuccess) => {
-        console.log('Enregistrement réussi:', response);
-
-        localStorage.setItem('token', response.token);
-
-        this.authService.me().subscribe((user: User) => {
-          console.log('Utilisateur récupéré:', user);
-
-          this.sessionService.logIn(user);
-
-          this.matSnackBar.open('Utilisateur enregistré avec succès.', 'Fermer', {
-            duration: 3000
-          });
-
+      next: () => {
           // Rediriger vers /login
           this.router.navigate(['/login']);
-        });
       },
       error: (err) => {
         console.error('Erreur lors de l’enregistrement:', err);
