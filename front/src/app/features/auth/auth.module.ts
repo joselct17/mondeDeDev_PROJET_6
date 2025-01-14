@@ -11,6 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
 import {MatGridListModule} from "@angular/material/grid-list";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 
 const materialModules = [
   MatButtonModule,
@@ -32,7 +33,8 @@ const materialModules = [
         FormsModule,
         ReactiveFormsModule,
         ...materialModules,
-        MatGridListModule
+        MatGridListModule,
+      MatSnackBarModule,
     ]
 })
 export class AuthModule { }
